@@ -715,9 +715,55 @@ a:hover {
   list-style: none;
 }
 
-.detail-text p {
+/* Die Beschreibung kommt als Markdown aus data/items/<id>/description.md –
+   hier stehen die Regeln für alles, was darin vorkommen kann. */
+.detail-text > :first-child {
+  margin-top: 0;
+}
+
+.detail-text p,
+.detail-text li {
   margin: 0 0 0.85rem;
   max-width: var(--prose-max);
+}
+
+.detail-text :is(h2, h3, h4) {
+  margin: 1.4rem 0 0.5rem;
+  line-height: 1.3;
+}
+
+.detail-text h2 {
+  font-size: 1.15rem;
+}
+
+.detail-text :is(h3, h4) {
+  font-size: 1rem;
+}
+
+.detail-text :is(ul, ol) {
+  margin: 0 0 0.85rem;
+  padding-left: 1.25rem;
+  max-width: var(--prose-max);
+}
+
+.detail-text li {
+  margin-bottom: 0.35rem;
+}
+
+.detail-text img {
+  display: block;
+  width: 100%;
+  max-width: var(--prose-max);
+  height: auto;
+  margin: 0 0 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.detail-text blockquote {
+  margin: 0 0 0.85rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid var(--border);
+  color: var(--text-muted);
 }
 
 .detail-author {
@@ -781,6 +827,12 @@ a:hover {
   margin: 0.5rem 1rem 0;
   color: var(--text-muted);
   font-size: 0.82rem;
+}
+
+/* Bildnachweis aus dem Feld images.copyright der description.md. */
+.beforeafter-copyright {
+  display: block;
+  margin-top: 0.25rem;
 }
 
 /* ----------------------------------------------------------- Listenansicht */

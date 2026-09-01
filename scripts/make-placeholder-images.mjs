@@ -1,22 +1,21 @@
 #!/usr/bin/env node
 /**
  * Erzeugt Platzhalter-SVGs für alle Einträge in data/items.json, damit die App
- * ohne echte Fotos entwickelt werden kann.
+ * ohne echte Fotos entwickelt werden kann. Geschrieben wird in den Ordner des
+ * jeweiligen Vorschlags, also neben seine description.md.
  *
  * Aufruf: node scripts/make-placeholder-images.mjs
  *
- * Sobald ein echtes Foto vorliegt, die Datei in public/images/items/ ablegen,
- * den Pfad in data/items.json anpassen – dieses Skript überschreibt nur SVGs,
- * die zu einem Eintrag mit .svg-Pfad gehören.
+ * Sobald ein echtes Foto vorliegt, die Datei in den Ordner des Vorschlags legen
+ * und den Pfad in seiner description.md anpassen – dieses Skript überschreibt
+ * nur SVGs, die zu einem Eintrag mit .svg-Pfad gehören.
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const items = JSON.parse(readFileSync(resolve(root, 'data/items.json'), 'utf8'))
-const outDir = resolve(root, 'public/images/items')
-mkdirSync(outDir, { recursive: true })
 
 const W = 1600
 const H = 1000
@@ -111,9 +110,9 @@ for (const item of items) {
   </g>
 </svg>
 `
-    writeFileSync(resolve(root, 'public', rel), svg, 'utf8')
+    writeFileSync(resolve(root, rel), svg, 'utf8')
     written++
   }
 }
 
-console.log(`✔ ${written} Platzhalterbilder in public/images/items/ geschrieben.`)
+console.log(`✔ ${written} Platzhalterbilder in data/items/<ordner>/ geschrieben.`)

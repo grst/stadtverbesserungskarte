@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router'
-import { assetUrl, layerById } from '../data/content'
+import { itemImageUrl, layerById } from '../data/content'
 import { useAppState } from '../state/AppState'
 import { Icon } from './Icon'
 
@@ -32,7 +32,7 @@ export function ItemListView() {
               >
                 <img
                   className="listview-image"
-                  src={assetUrl(item.images.after)}
+                  src={itemImageUrl(item.images.after)}
                   alt=""
                   loading="lazy"
                   width={240}

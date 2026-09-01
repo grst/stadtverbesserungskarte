@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { assetUrl } from '../data/content'
+import { itemImageUrl } from '../data/content'
 import type { ItemImages } from '../data/types'
 
 /**
@@ -42,14 +42,14 @@ export function BeforeAfter({ images }: { images: ItemImages }) {
         >
           <img
             slot="first"
-            src={assetUrl(images.before)}
+            src={itemImageUrl(images.before)}
             alt={images.beforeAlt}
             width={1600}
             height={1000}
           />
           <img
             slot="second"
-            src={assetUrl(images.after)}
+            src={itemImageUrl(images.after)}
             alt={images.afterAlt}
             width={1600}
             height={1000}
@@ -66,6 +66,7 @@ export function BeforeAfter({ images }: { images: ItemImages }) {
       <figcaption className="beforeafter-caption">
         Regler verschieben, um zwischen heutigem Zustand und Vorschlag zu wechseln – mit Maus,
         Finger oder den Pfeiltasten. Das Nachher-Bild ist eine KI-Bearbeitung des Vorher-Bildes.
+        <span className="beforeafter-copyright">{images.copyright}</span>
       </figcaption>
     </figure>
   )

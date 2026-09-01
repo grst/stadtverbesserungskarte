@@ -24,18 +24,23 @@ export interface Layer {
 }
 
 export interface ItemImages {
+  /** Pfad relativ zum Projektverzeichnis, siehe `itemImageUrl` in content.ts. */
   before: string
   after: string
   beforeAlt: string
   afterAlt: string
+  /** Urheber- und Nutzungsangabe zu beiden Bildern. */
+  copyright: string
 }
 
 export interface Item {
+  /** Name des Ordners unter data/items/. */
   id: string
   title: string
   location: { lat: number; lon: number }
   layers: LayerId[]
   images: ItemImages
+  /** Markdown – der Rumpf der description.md. */
   description: string
   author: string
 }

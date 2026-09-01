@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
-import DOMPurify from 'dompurify'
-import { marked } from 'marked'
+import { renderMarkdown } from '../data/markdown'
 
 /**
  * Rendert eine der Markdown-Dateien aus content/. Der Text wird beim Build als
@@ -9,10 +8,7 @@ import { marked } from 'marked'
 export function MarkdownPage({ markdown, title }: { markdown: string; title: string }) {
   const containerRef = useRef<HTMLElement>(null)
 
-  const html = useMemo(() => {
-    const parsed = marked.parse(markdown, { async: false, gfm: true, breaks: false })
-    return DOMPurify.sanitize(parsed)
-  }, [markdown])
+  const html = useMemo(() => renderMarkdown(markdown), [markdown])
 
   useEffect(() => {
     document.title = `${title} – Stadtverbesserungskarte Immenstadt i. Allgäu`

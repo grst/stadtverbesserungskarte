@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router'
-import { itemById, layerById } from '../data/content'
+import { itemById, itemImageUrl, layerById } from '../data/content'
+import { renderMarkdown } from '../data/markdown'
 import { useIsWideViewport } from '../hooks/useMediaQuery'
 import { BeforeAfter } from './BeforeAfter'
 import { Icon } from './Icon'
@@ -35,6 +36,14 @@ export function ItemDetail() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [close])
 
+  // Die Beschreibung ist Markdown (der Rumpf der description.md). Überschriften
+  // rutschen eine Ebene tiefer, damit die `h1` des Titels darüber stehen bleibt.
+  const descriptionHtml = useMemo(
+    () =>
+      item ? renderMarkdown(item.description, { headingOffset: 1, resolveImage: itemImageUrl }) : '',
+    [item],
+  )
+
   const className = isWide ? 'detail is-panel' : 'detail is-fullscreen'
 
   if (!item) {
@@ -55,8 +64,6 @@ export function ItemDetail() {
       </section>
     )
   }
-
-  const paragraphs = item.description.split(/\n\s*\n/).filter(Boolean)
 
   return (
     <section ref={sectionRef} className={className} aria-label={`Vorschlag: ${item.title}`}>
@@ -90,11 +97,7 @@ export function ItemDetail() {
           })}
         </ul>
 
-        <div className="detail-text">
-          {paragraphs.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
-        </div>
+        <div className="detail-text" dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
 
         <p className="detail-author">
           Vorschlag von <strong>{item.author}</strong>

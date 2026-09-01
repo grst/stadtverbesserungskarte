@@ -29,6 +29,10 @@ jobs:
 
       - run: npm ci
 
+      # Kompiliert data/items.json aus den Ordnern unter data/items/ – die
+      # Ordner sind die Quelle, die eingecheckte JSON nur das Ergebnis.
+      - run: npm run items
+
       # Prüft data/*.json gegen die Schemas und die Querverweise. Der Build
       # bricht ab, wenn ein Eintrag ungültig ist oder ein Bild fehlt.
       - run: npm run validate

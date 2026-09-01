@@ -20,6 +20,7 @@ npm run dev          # Entwicklungsserver auf http://localhost:5173
 | `npm run build` | Validierung, Typprüfung und Produktionsbuild nach `dist/` |
 | `npm run preview` | `dist/` lokal ausliefern (http://localhost:4173) |
 | `VITE_BASE=/repo/ npm run build && VITE_BASE=/repo/ npm run preview` | Deployment unter einem Unterpfad testen (`VITE_BASE` muss bei *beiden* Befehlen gesetzt sein) |
+| `npm run items` | `data/items.json` aus den Ordnern unter `data/items/` kompilieren |
 | `npm run validate` | `data/*.json` gegen die Schemas und Querverweise prüfen |
 | `npm run typecheck` | TypeScript ohne Ausgabe prüfen |
 | `npm run a11y` | axe-core über alle Ansichten laufen lassen (Preview muss laufen) |
@@ -35,34 +36,64 @@ derselbe Schritt läuft auch im Build und in der GitHub-Action.
 
 ### Einen Vorschlag hinzufügen
 
-1. Beide Bilder nach `public/images/items/` legen, benannt
-   `<id>-before.jpg` und `<id>-after.jpg`. Querformat, etwa 1600 × 1000 px.
-2. In `data/items.json` einen Eintrag ergänzen:
+Ein Vorschlag ist ein Ordner unter `data/items/`. Der Ordnername ist die `id`
+des Vorschlags und steckt in der Adresse der Detailseite (`/vorschlag/<id>`) –
+er sollte sich also nicht mehr ändern, sobald ein Link geteilt wurde.
 
-   ```json
-   {
-     "id": "kurze-kennung-mit-bindestrichen",
-     "title": "Titel des Vorschlags",
-     "location": { "lat": 47.5599, "lon": 10.219 },
-     "layers": ["radverkehr"],
-     "images": {
-       "before": "images/items/kurze-kennung-mit-bindestrichen-before.jpg",
-       "after": "images/items/kurze-kennung-mit-bindestrichen-after.jpg",
-       "beforeAlt": "Beschreibung der heutigen Situation für Screenreader.",
-       "afterAlt": "Beschreibung der vorgeschlagenen Verbesserung."
-     },
-     "description": "Fließtext. Absätze mit einer Leerzeile trennen.",
-     "author": "Name oder \"anonym\""
-   }
-   ```
+```
+data/items/<id>/
+  description.md   Frontmatter mit allen Angaben + Beschreibung als Markdown
+  before.jpg       Vorher-Foto, Querformat, etwa 1600 × 1000 px
+  after.jpg        Nachher-Bild
+```
 
-Die `id` steckt in der Adresse der Detailseite (`/vorschlag/<id>`) – sie sollte
-sich also nicht mehr ändern, sobald ein Link geteilt wurde. Die beiden
-`*Alt`-Texte sind Pflicht: ohne sie ist ein Bildvergleich für Menschen, die die
-Bilder nicht sehen können, wertlos.
+Neben den beiden Bildern kann im Ordner beliebiges Material liegen
+(Originalfotos, Zwischenstände, `prompt.md` zur KI-Bearbeitung); in die Website
+kommt nur, was in der `description.md` verwendet wird.
+
+```markdown
+---
+title: Titel des Vorschlags
+author: Name oder anonym
+location:
+  lat: 47.5599
+  lon: 10.219
+layers:
+  - radverkehr
+images:
+  before: before.jpg
+  after: after.jpg
+  beforeAlt: Beschreibung der heutigen Situation für Screenreader.
+  afterAlt: Beschreibung der vorgeschlagenen Verbesserung.
+  copyright: "Foto: Vorname Nachname, Nachher-Bild: KI-Bearbeitung des Fotos"
+---
+
+Fließtext als Markdown. Absätze mit einer Leerzeile trennen, Überschriften,
+Listen, Links und weitere Bilder sind erlaubt:
+
+![Bildbeschreibung](weiteres-bild.jpg)
+```
+
+Alle Bildpfade – im Frontmatter wie im Text – sind relativ zur `description.md`.
+Die beiden `*Alt`-Texte sind Pflicht: ohne sie ist ein Bildvergleich für
+Menschen, die die Bilder nicht sehen können, wertlos. `copyright` ist ebenfalls
+Pflicht und erscheint unter dem Vergleich.
 
 Koordinaten lassen sich in [OpenStreetMap](https://www.openstreetmap.org/)
 per Rechtsklick → „Adresse anzeigen“ ablesen.
+
+Aus den Ordnern wird `data/items.json` kompiliert – **diese Datei nicht von
+Hand bearbeiten**, sie wird bei jedem Speichern im laufenden `npm run dev`, bei
+`npm run items` und im Build überschrieben. `npm run validate` meldet, wenn sie
+nicht mehr zu den Ordnern passt. Dasselbe gilt für
+`src/data/itemImages.generated.ts`: dort importiert der Kompilierschritt jedes
+verwendete Bild einzeln, damit Vite genau diese Bilder in den Build übernimmt.
+
+Ein Ordner ohne `description.md` wird übersprungen (mit Hinweis in der
+Konsole) – so kann Material für einen Vorschlag schon im Repository liegen,
+bevor der Vorschlag fertig ist. Ein Ordner mit unvollständiger
+`description.md` bricht die Kompilierung dagegen ab und meldet Feld für Feld,
+was fehlt.
 
 ### Radverbindungen bewerten
 
@@ -105,23 +136,32 @@ beide Platzhaltertext.
 ## Aufbau
 
 ```
-data/       Inhalte und JSON Schemas
+data/
+  items/<id>/  je ein Vorschlag: description.md und seine Bilder
+  items.json   daraus kompiliert (erzeugt), dazu die JSON Schemas
 content/    Markdown der Textseiten
-public/     statische Bilder, Favicon
+public/     Favicon
 src/
   components/  Oberfläche
+  data/        Inhalte laden, Markdown rendern
   map/         OpenLayers – Kartenaufbau, Ebenen, Stile
   pages/       Kartenseite, 404
   state/       aktive Ebenen, Auswahl, Hover
   styles/      Design-Tokens und globales CSS
-scripts/    Validierung, Build-Nacharbeiten, Prüfwerkzeuge
+scripts/    Kompilierung, Validierung, Build-Nacharbeiten, Prüfwerkzeuge
 ```
 
 Technik: Vite, React, TypeScript, OpenLayers (Karte, OpenStreetMap-Kacheln),
 `img-comparison-slider` (Vorher/Nachher), `@radix-ui/react-dialog` (Menü auf
-schmalen Viewports), `marked` + `DOMPurify` (Markdown), `ajv` (Validierung).
-Die Karte wird in `src/map/mapController.ts` außerhalb von React aufgebaut und
-von React nur ferngesteuert.
+schmalen Viewports), `marked` + `DOMPurify` (Markdown), `yaml` (Frontmatter),
+`ajv` (Validierung). Die Karte wird in `src/map/mapController.ts` außerhalb von
+React aufgebaut und von React nur ferngesteuert.
+
+`scripts/build-items.mjs` kompiliert die Vorschlagsordner; die `vite.config.ts`
+ruft dasselbe Skript beim Start und bei jeder Änderung unter `data/items/`
+auf. Bilder werden nicht kopiert: sie bleiben in ihrem Ordner und kommen über
+die Importe in `src/data/itemImages.generated.ts` mit Hash im Dateinamen in den
+Build.
 
 Liegen Pins zu dicht beieinander, fasst `ol/source/Cluster` sie zu einer Blase
 mit der Anzahl zusammen; ein Klick darauf zoomt auf die enthaltenen Vorschläge,
@@ -174,4 +214,11 @@ einem Reload.
   öffentlich zugängliche Website in Deutschland braucht ein Impressum, bevor
   sie live geht.
 * Alle Radverbindungen sind noch mit `"unknown"` bewertet.
-* Die Bilder sind Platzhalter-SVGs, ebenso die Texte in `content/`.
+* **Kein Vorschlag ist fertig.** Die fünf Ordner in `data/items/`
+  (`fidel_schlund`, `radweg_eckarts`, `radweg_flecken`, `radweg_seifen`,
+  `spielplatz_eckarts`) enthalten echte Fotos und KI-Bearbeitungen, aber nur
+  eine `description.md` mit leerem Frontmatter. Solange die Felder leer sind,
+  brechen `npm run items`, `npm run validate` und `npm run build` ab und nennen
+  pro Ordner, was noch fehlt; `npm run dev` läuft weiter und zeigt eine leere
+  Karte. Die Platzhaltervorschläge von früher sind entfernt.
+* Die Texte in `content/` sind noch Platzhalter.

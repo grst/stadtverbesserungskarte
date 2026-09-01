@@ -1,58 +1,102 @@
 [
   {
-    "id": "bahnhofstrasse-radfahrstreifen",
-    "title": "Geschützter Radfahrstreifen in der Bahnhofstraße",
-    "location": { "lat": 47.55924, "lon": 10.21427 },
-    "layers": ["radverkehr"],
-    "images": {
-      "before": "images/items/bahnhofstrasse-radfahrstreifen-before.svg",
-      "after": "images/items/bahnhofstrasse-radfahrstreifen-after.svg",
-      "beforeAlt": "Platzhalterbild: die Bahnhofstraße im heutigen Zustand, beidseitig parkende Autos und keine Radverkehrsanlage.",
-      "afterAlt": "Platzhalterbild: die Bahnhofstraße mit einem durch Poller geschützten Radfahrstreifen in beiden Richtungen."
+    "id": "fidel_schlund",
+    "title": "Mobile Bäume und schattige Bänke am Fidel-Schlund-Platz",
+    "location": {
+      "lat": 47.559492607666165,
+      "lon": 10.217813460730055
     },
-    "description": "Platzhaltertext. Zwischen Bahnhof und Innenstadt fehlt eine durchgehende, sichere Radverbindung. Ein durch Poller vom Kfz-Verkehr getrennter Radfahrstreifen auf beiden Seiten würde die wichtigste Achse der Stadt für alle Altersgruppen befahrbar machen.\n\nDer Straßenquerschnitt gibt das her, wenn das Längsparken auf einer Seite entfällt. Als Ersatz bietet sich das Parkdeck am Bahnhof an, das ganztägig nicht ausgelastet ist.",
-    "author": "Platzhalter Name"
+    "layers": [
+      "klimafolgenanpassung"
+    ],
+    "images": {
+      "before": "data/items/fidel_schlund/before.webp",
+      "after": "data/items/fidel_schlund/after.jpg",
+      "beforeAlt": "Gepflasterter Platz mit einer Büste auf einem Sockel, zwei Pflanzkübeln aus Cortenstahl und einer Holzpergola am rechten Rand. Die Fläche liegt ohne Schatten in der Sonne.",
+      "afterAlt": "Derselbe Platz mit mehreren großen Bäumen in runden Cortenstahl-Kübeln, Sitzbänken in ihrem Schatten und einer mit Wein überwachsenen Pergola.",
+      "copyright": "Gregor Sturm"
+    },
+    "description": "Lorem ipsum",
+    "author": "Gregor Sturm"
   },
   {
-    "id": "marienplatz-abstellanlagen",
-    "title": "Überdachte Fahrradabstellanlagen am Marienplatz",
-    "location": { "lat": 47.55989, "lon": 10.21905 },
-    "layers": ["radverkehr"],
-    "images": {
-      "before": "images/items/marienplatz-abstellanlagen-before.svg",
-      "after": "images/items/marienplatz-abstellanlagen-after.svg",
-      "beforeAlt": "Platzhalterbild: der Marienplatz heute, Fahrräder lehnen an Hauswänden und Laternen.",
-      "afterAlt": "Platzhalterbild: der Marienplatz mit überdachten Anlehnbügeln am Rand des Platzes."
+    "id": "radweg_eckarts",
+    "title": "Asphaltierter Radweg/barrierefreier Fußweg von Werdenstein nach Eckarts",
+    "location": {
+      "lat": 47.60866862361137,
+      "lon": 10.243576598139525
     },
-    "description": "Platzhaltertext. Am Marienplatz gibt es kaum Abstellmöglichkeiten, die diesen Namen verdienen. Räder werden an Laternen und Hauswänden angelehnt, was Gehwege verengt und Diebstahl erleichtert.\n\nVorgeschlagen werden überdachte Anlehnbügel am Platzrand: rahmenschlossfest, wettergeschützt und so angeordnet, dass die Platzfläche selbst frei bleibt.",
-    "author": "Platzhalter Name"
+    "layers": [
+      "radverkehr"
+    ],
+    "images": {
+      "before": "data/items/radweg_eckarts/before.jpg",
+      "after": "data/items/radweg_eckarts/after.jpg",
+      "beforeAlt": "Schmaler Schotterpfad, der sich steil durch eine Wiese zur Kirche von Eckarts hinaufwindet, begrenzt von einem einfachen Holzzaun.",
+      "afterAlt": "Derselbe Hang mit einem asphaltierten, mit Fahrradpiktogramm markierten Radweg, der in flacheren Kurven zur Kirche führt; daneben stehen neu gepflanzte Apfelbäume.",
+      "copyright": "Gregor Sturm"
+    },
+    "description": "Lorem ipsum",
+    "author": "Gregor Sturm"
   },
   {
-    "id": "klostergarten-entsiegelung",
-    "title": "Entsiegelung und Beschattung im Klostergarten",
-    "location": { "lat": 47.56003, "lon": 10.22022 },
-    "layers": ["klimafolgenanpassung"],
-    "images": {
-      "before": "images/items/klostergarten-entsiegelung-before.svg",
-      "after": "images/items/klostergarten-entsiegelung-after.svg",
-      "beforeAlt": "Platzhalterbild: eine weitgehend asphaltierte Fläche im Klostergarten ohne Schatten.",
-      "afterAlt": "Platzhalterbild: dieselbe Fläche entsiegelt, mit Baumgruppen, Rasenfugenpflaster und Sitzbänken im Schatten."
+    "id": "radweg_flecken",
+    "title": "Radwegquerung mit rotem Belag und Anrampung für den Kfz-Verkehr",
+    "location": {
+      "lat": 47.585797863592745,
+      "lon": 10.242128946266137
     },
-    "description": "Platzhaltertext. Die versiegelte Fläche im Klostergarten heizt sich im Sommer stark auf und leitet Starkregen ungebremst in die Kanalisation.\n\nEine Entsiegelung mit Rasenfugenpflaster, drei bis vier großkronigen Bäumen und einer flachen Mulde als Retentionsfläche kühlt den Bereich messbar ab und entlastet gleichzeitig den Kanal bei Starkregen.",
-    "author": "Platzhalter Name"
+    "layers": [
+      "radverkehr"
+    ],
+    "images": {
+      "before": "data/items/radweg_flecken/before.webp",
+      "after": "data/items/radweg_flecken/after.jpg",
+      "beforeAlt": "Einmündung einer Nebenstraße: der Zweirichtungsradweg quert die Fahrbahn auf grauem Asphalt zwischen Bordsteinen und Verkehrsinseln, ohne farbige Markierung.",
+      "afterAlt": "Dieselbe Querung mit durchgehend rot asphaltiertem Radweg, weißen Randlinien, Fahrradpiktogrammen und weißen Dreiecken auf den angerampten Fahrbahnrändern.",
+      "copyright": "Gregor Sturm"
+    },
+    "description": "Lorem ipsum",
+    "author": "Gregor Sturm"
   },
   {
-    "id": "gruentenstrasse-baumallee",
-    "title": "Baumallee und Radweg in der Grüntenstraße",
-    "location": { "lat": 47.55999, "lon": 10.22211 },
-    "layers": ["radverkehr", "klimafolgenanpassung"],
-    "images": {
-      "before": "images/items/gruentenstrasse-baumallee-before.svg",
-      "after": "images/items/gruentenstrasse-baumallee-after.svg",
-      "beforeAlt": "Platzhalterbild: die Grüntenstraße heute, breite Fahrbahn ohne Bäume und ohne Radweg.",
-      "afterAlt": "Platzhalterbild: die Grüntenstraße mit einer beidseitigen Baumreihe und einem baulich getrennten Radweg."
+    "id": "radweg_seifen",
+    "title": "Durchgehender Radweg statt „Radfahrer absteigen“ in Seifen",
+    "location": {
+      "lat": 47.59503973588101,
+      "lon": 10.250998038293215
     },
-    "description": "Platzhaltertext. Die Grüntenstraße ist breit, schattenlos und für Radfahrende unangenehm. Beides lässt sich in einem Zug lösen.\n\nEine beidseitige Baumreihe in Verbindung mit einem baulich getrennten Radweg schafft Schatten, verringert die gefühlte und gemessene Temperatur und macht die Straße zu einer echten Radverbindung Richtung Osten. Dieser Vorschlag liegt deshalb in beiden Ebenen.",
-    "author": "Platzhalter Name"
+    "layers": [
+      "radverkehr"
+    ],
+    "images": {
+      "before": "data/items/radweg_seifen/orig.webp",
+      "after": "data/items/radweg_seifen/after.jpg",
+      "beforeAlt": "Rissiger, von Bordsteinen und Zufahrten unterbrochener Radweg entlang der Straße; am Rand steht ein Schild „Radfahrer absteigen“.",
+      "afterAlt": "Derselbe Abschnitt mit durchgehendem, rot asphaltiertem Radweg, weißen Randlinien und weißen Dreiecken an den Zufahrten; das Schild „Radfahrer absteigen“ ist entfallen.",
+      "copyright": "Gregor Sturm"
+    },
+    "description": "Lorem ipsum",
+    "author": "Gregor Sturm"
+  },
+  {
+    "id": "spielplatz_eckarts",
+    "title": "Sonnensegel über dem Sandkasten am Spielplatz Eckarts",
+    "location": {
+      "lat": 47.610691014168914,
+      "lon": 10.243008110646285
+    },
+    "layers": [
+      "klimafolgenanpassung"
+    ],
+    "images": {
+      "before": "data/items/spielplatz_eckarts/before.jpg",
+      "after": "data/items/spielplatz_eckarts/after.jpg",
+      "beforeAlt": "Sandkasten mit Spielzeug auf einer Wiese, dahinter Klettergerüst, Schaukel und ein Spielhaus aus Holz. Der Sand liegt in der Mittagssonne völlig ohne Schatten.",
+      "afterAlt": "Derselbe Sandkasten vollständig im Schatten eines beigen Sonnensegels, das an vier schlanken Edelstahlpfosten über die Fläche gespannt ist.",
+      "copyright": "Gregor Sturm"
+    },
+    "description": "Lorem ipsum",
+    "author": "Gregor Sturm"
   }
 ]

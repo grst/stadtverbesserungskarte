@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { assetUrl, layerById } from '../data/content'
+import { itemImageUrl, layerById } from '../data/content'
 import type { Item } from '../data/types'
 import { SHEET_PEEK_PX } from '../layout'
 import { useAppState } from '../state/AppState'
@@ -213,7 +213,7 @@ export function ExploreSheet({ container }: { container: HTMLElement | null }) {
               >
                 <img
                   className="tile-image"
-                  src={assetUrl(item.images.after)}
+                  src={itemImageUrl(item.images.after)}
                   alt=""
                   loading="lazy"
                   width={320}
