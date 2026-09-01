@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Platzhalterbild VORHER: Entsiegelung und Beschattung im Klostergarten">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9aa5ad"/>
+      <stop offset="100%" stop-color="#7c8489"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  
+      <rect x="0" y="620" width="1600" height="380" fill="#6b7378"/>
+      <rect x="0" y="700" width="1600" height="24" fill="#8b9297"/>
+      <rect x="80" y="756" width="90" height="10" fill="#c9ced1"/><rect x="240" y="756" width="90" height="10" fill="#c9ced1"/><rect x="400" y="756" width="90" height="10" fill="#c9ced1"/><rect x="560" y="756" width="90" height="10" fill="#c9ced1"/><rect x="720" y="756" width="90" height="10" fill="#c9ced1"/><rect x="880" y="756" width="90" height="10" fill="#c9ced1"/><rect x="1040" y="756" width="90" height="10" fill="#c9ced1"/><rect x="1200" y="756" width="90" height="10" fill="#c9ced1"/><rect x="1360" y="756" width="90" height="10" fill="#c9ced1"/><rect x="1520" y="756" width="90" height="10" fill="#c9ced1"/>
+      <rect x="120" y="470" width="150" height="150" fill="#868e93"/><rect x="380" y="470" width="150" height="150" fill="#868e93"/><rect x="640" y="470" width="150" height="150" fill="#868e93"/><rect x="900" y="470" width="150" height="150" fill="#868e93"/><rect x="1160" y="470" width="150" height="150" fill="#868e93"/><rect x="1420" y="470" width="150" height="150" fill="#868e93"/>
+    
+  <rect x="0" y="0" width="1600" height="1000" fill="#5d6469" opacity="0.18"/>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+    <rect x="64" y="64" width="268" height="86" rx="10" fill="#3f464b"/>
+    <text x="96" y="124" font-size="56" font-weight="700" letter-spacing="4" fill="#ffffff">VORHER</text>
+    <text x="64" y="300" font-size="62" font-weight="600" fill="#b9c0c5" stroke="#3f464b" stroke-width="8" paint-order="stroke">Entsiegelung und</text>
+    <text x="64" y="374" font-size="62" font-weight="600" fill="#b9c0c5" stroke="#3f464b" stroke-width="8" paint-order="stroke">Beschattung im</text>
+    <text x="64" y="448" font-size="62" font-weight="600" fill="#b9c0c5" stroke="#3f464b" stroke-width="8" paint-order="stroke">Klostergarten</text>
+    <text x="64" y="936" font-size="38" fill="#b9c0c5" stroke="#3f464b" stroke-width="6" paint-order="stroke">Platzhalter – echtes Bild folgt</text>
+  </g>
+</svg>

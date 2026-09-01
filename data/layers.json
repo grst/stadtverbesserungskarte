@@ -1,0 +1,19 @@
+{
+  "$comment": "Eine neue Ebene hinzufügen: hier einen Eintrag ergänzen, den Wert zusätzlich in die layers-Enum von items.schema.json aufnehmen und – falls nötig – ein Icon in src/components/Icon.tsx anlegen.",
+  "layers": [
+    {
+      "id": "radverkehr",
+      "label": "Radverkehr",
+      "icon": "bike",
+      "color": "#1d4ed8",
+      "description": "Vorschläge für sicheres und bequemes Radfahren in Immenstadt."
+    },
+    {
+      "id": "klimafolgenanpassung",
+      "label": "Klimafolgenanpassung",
+      "icon": "leaf",
+      "color": "#1c6b3c",
+      "description": "Vorschläge, die Immenstadt gegen Hitze, Starkregen und Trockenheit wappnen."
+    }
+  ]
+}

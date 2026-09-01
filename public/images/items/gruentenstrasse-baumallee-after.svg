@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Platzhalterbild NACHHER: Baumallee und Radweg in der Grüntenstraße">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfe0c8"/>
+      <stop offset="100%" stop-color="#4c8a5e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  
+      <rect x="0" y="620" width="1600" height="380" fill="#5f6f63"/>
+      <rect x="0" y="640" width="1600" height="70" fill="#3f7f52"/>
+      <rect x="0" y="700" width="1600" height="8" fill="#eef7f0"/>
+      <rect x="80" y="800" width="90" height="10" fill="#eef7f0"/><rect x="240" y="800" width="90" height="10" fill="#eef7f0"/><rect x="400" y="800" width="90" height="10" fill="#eef7f0"/><rect x="560" y="800" width="90" height="10" fill="#eef7f0"/><rect x="720" y="800" width="90" height="10" fill="#eef7f0"/><rect x="880" y="800" width="90" height="10" fill="#eef7f0"/><rect x="1040" y="800" width="90" height="10" fill="#eef7f0"/><rect x="1200" y="800" width="90" height="10" fill="#eef7f0"/><rect x="1360" y="800" width="90" height="10" fill="#eef7f0"/><rect x="1520" y="800" width="90" height="10" fill="#eef7f0"/>
+      
+        <rect x="186" y="520" width="18" height="110" fill="#6b4b2f"/>
+        <circle cx="195" cy="490" r="78" fill="#3d8b52"/>
+        <circle cx="152" cy="520" r="54" fill="#4a9c60"/>
+        <circle cx="238" cy="520" r="54" fill="#4a9c60"/>
+        <rect x="446" y="520" width="18" height="110" fill="#6b4b2f"/>
+        <circle cx="455" cy="490" r="78" fill="#3d8b52"/>
+        <circle cx="412" cy="520" r="54" fill="#4a9c60"/>
+        <circle cx="498" cy="520" r="54" fill="#4a9c60"/>
+        <rect x="706" y="520" width="18" height="110" fill="#6b4b2f"/>
+        <circle cx="715" cy="490" r="78" fill="#3d8b52"/>
+        <circle cx="672" cy="520" r="54" fill="#4a9c60"/>
+        <circle cx="758" cy="520" r="54" fill="#4a9c60"/>
+        <rect x="966" y="520" width="18" height="110" fill="#6b4b2f"/>
+        <circle cx="975" cy="490" r="78" fill="#3d8b52"/>
+        <circle cx="932" cy="520" r="54" fill="#4a9c60"/>
+        <circle cx="1018" cy="520" r="54" fill="#4a9c60"/>
+        <rect x="1226" y="520" width="18" height="110" fill="#6b4b2f"/>
+        <circle cx="1235" cy="490" r="78" fill="#3d8b52"/>
+        <circle cx="1192" cy="520" r="54" fill="#4a9c60"/>
+        <circle cx="1278" cy="520" r="54" fill="#4a9c60"/>
+        <rect x="1486" y="520" width="18" height="110" fill="#6b4b2f"/>
+        <circle cx="1495" cy="490" r="78" fill="#3d8b52"/>
+        <circle cx="1452" cy="520" r="54" fill="#4a9c60"/>
+        <circle cx="1538" cy="520" r="54" fill="#4a9c60"/>
+    
+  <rect x="0" y="0" width="1600" height="1000" fill="#2f6b41" opacity="0.18"/>
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif">
+    <rect x="64" y="64" width="302" height="86" rx="10" fill="#1c6b3c"/>
+    <text x="96" y="124" font-size="56" font-weight="700" letter-spacing="4" fill="#ffffff">NACHHER</text>
+    <text x="64" y="300" font-size="62" font-weight="600" fill="#e8f3ea" stroke="#1c6b3c" stroke-width="8" paint-order="stroke">Baumallee und Radweg in</text>
+    <text x="64" y="374" font-size="62" font-weight="600" fill="#e8f3ea" stroke="#1c6b3c" stroke-width="8" paint-order="stroke">der Grüntenstraße</text>
+    <text x="64" y="936" font-size="38" fill="#e8f3ea" stroke="#1c6b3c" stroke-width="6" paint-order="stroke">Platzhalter – echtes Bild folgt</text>
+  </g>
+</svg>

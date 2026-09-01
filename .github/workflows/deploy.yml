@@ -1,0 +1,62 @@
+name: Build und Deploy auf GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Nötig für actions/deploy-pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Ein Deploy zur Zeit; laufende Deploys nicht abbrechen.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Prüft data/*.json gegen die Schemas und die Querverweise. Der Build
+      # bricht ab, wenn ein Eintrag ungültig ist oder ein Bild fehlt.
+      - run: npm run validate
+
+      - uses: actions/configure-pages@v5
+        id: pages
+
+      # Bei Projektseiten liegt die Seite unter /<repo>/ – base entsprechend
+      # setzen. Für eine eigene Domain (CNAME) stattdessen VITE_BASE=/ nutzen.
+      - name: Build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          # Genau ein Schrägstrich am Ende: "" -> "/", "/repo" -> "/repo/".
+          VITE_BASE="$(printf '%s' "${BASE_PATH:-/}" | sed 's:/*$::')/"
+          echo "VITE_BASE=$VITE_BASE"
+          VITE_BASE="$VITE_BASE" npm run build
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

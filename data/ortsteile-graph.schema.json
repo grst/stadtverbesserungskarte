@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stadtverbesserungskarte-immenstadt.de/schema/ortsteile-graph.schema.json",
+  "title": "Ortsteil-Graph Radverkehr",
+  "description": "Graph der Immenstädter Ortsteile. Knoten sind Ortsteile, Kanten sind Radverbindungen zwischen benachbarten Ortsteilen, bewertet nach Sicherheit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["nodes", "edges"],
+  "properties": {
+    "$comment": { "type": "string" },
+    "nodes": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 60
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "lat", "lon"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": {
+          "description": "Anzeigename des Ortsteils.",
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60
+        },
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lon": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "safety"],
+      "properties": {
+        "from": { "$ref": "#/$defs/id" },
+        "to": { "$ref": "#/$defs/id" },
+        "safety": {
+          "description": "Sicherheit der Radverbindung. \"unknown\" bedeutet: noch nicht bewertet.",
+          "enum": ["safe", "medium", "unsafe", "unknown"]
+        },
+        "note": {
+          "description": "Optionale Begründung der Bewertung, wird im Kartenpopup angezeigt.",
+          "type": "string",
+          "maxLength": 300
+        }
+      }
+    }
+  }
+}

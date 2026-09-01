@@ -1,0 +1,39 @@
+{
+  "$comment": "Die Bewertung der Radverbindungen wird hier von Hand gepflegt. Erlaubte Werte für safety: \"safe\", \"medium\", \"unsafe\" und \"unknown\". Alle Kanten starten als \"unknown\" und werden dann grau dargestellt.",
+  "nodes": [
+    { "id": "immenstadt", "name": "Immenstadt i. Allgäu", "lat": 47.55989, "lon": 10.21905 },
+    { "id": "hub", "name": "Hub", "lat": 47.57059, "lon": 10.19802 },
+    { "id": "buehl-am-alpsee", "name": "Bühl a. Alpsee", "lat": 47.56777, "lon": 10.19045 },
+    { "id": "ratholz", "name": "Ratholz", "lat": 47.56225, "lon": 10.1349 },
+    { "id": "stein", "name": "Stein i. Allgäu", "lat": 47.57738, "lon": 10.23899 },
+    { "id": "rauhenzell", "name": "Rauhenzell", "lat": 47.55847, "lon": 10.242 },
+    { "id": "zaumberg", "name": "Zaumberg", "lat": 47.58469, "lon": 10.19341 },
+    { "id": "akams", "name": "Akams", "lat": 47.59528, "lon": 10.21275 },
+    { "id": "knottenried", "name": "Knottenried", "lat": 47.60061, "lon": 10.18697 },
+    { "id": "diepolz", "name": "Diepolz", "lat": 47.61359, "lon": 10.17719 },
+    { "id": "gnadenberg", "name": "Gnadenberg", "lat": 47.59502, "lon": 10.24116 },
+    { "id": "werdenstein", "name": "Werdenstein", "lat": 47.60468, "lon": 10.24671 },
+    { "id": "eckarts", "name": "Eckarts", "lat": 47.61093, "lon": 10.24385 },
+    { "id": "seifen", "name": "Seifen", "lat": 47.59542, "lon": 10.2542 }
+  ],
+  "edges": [
+    { "from": "immenstadt", "to": "hub", "safety": "unknown", "note": "" },
+    { "from": "immenstadt", "to": "buehl-am-alpsee", "safety": "unknown", "note": "" },
+    { "from": "hub", "to": "buehl-am-alpsee", "safety": "unknown", "note": "" },
+    { "from": "hub", "to": "zaumberg", "safety": "unknown", "note": "" },
+    { "from": "buehl-am-alpsee", "to": "ratholz", "safety": "unknown", "note": "" },
+    { "from": "immenstadt", "to": "stein", "safety": "unknown", "note": "" },
+    { "from": "immenstadt", "to": "rauhenzell", "safety": "unknown", "note": "" },
+    { "from": "stein", "to": "rauhenzell", "safety": "unknown", "note": "" },
+    { "from": "stein", "to": "gnadenberg", "safety": "unknown", "note": "" },
+    { "from": "zaumberg", "to": "akams", "safety": "unknown", "note": "" },
+    { "from": "zaumberg", "to": "knottenried", "safety": "unknown", "note": "" },
+    { "from": "akams", "to": "knottenried", "safety": "unknown", "note": "" },
+    { "from": "knottenried", "to": "diepolz", "safety": "unknown", "note": "" },
+    { "from": "akams", "to": "gnadenberg", "safety": "unknown", "note": "" },
+    { "from": "gnadenberg", "to": "werdenstein", "safety": "unknown", "note": "" },
+    { "from": "werdenstein", "to": "eckarts", "safety": "unknown", "note": "" },
+    { "from": "werdenstein", "to": "seifen", "safety": "unknown", "note": "" },
+    { "from": "gnadenberg", "to": "seifen", "safety": "unknown", "note": "" }
+  ]
+}

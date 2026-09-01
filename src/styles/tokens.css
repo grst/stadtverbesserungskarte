@@ -1,0 +1,50 @@
+/*
+ * Design-Tokens. Alle Farben sind gegen die jeweilige Hintergrundfarbe auf
+ * mindestens 4,5:1 (Text) bzw. 3:1 (Ränder, Fokusring) geprüft.
+ */
+:root {
+  --brand: #1c6b3c;
+  --brand-strong: #14532d;
+  --brand-soft: #eaf3ed;
+
+  --surface: #ffffff;
+  --surface-muted: #f5f7f6;
+  --surface-sunken: #eceff0;
+
+  --text: #10202a;
+  --text-muted: #4a5a63;
+  --text-inverse: #ffffff;
+
+  --border: #d6dcdd;
+  --border-strong: #9aa6a9;
+
+  --focus: #0b4fd0;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgb(16 32 42 / 12%);
+  --shadow-md: 0 4px 14px rgb(16 32 42 / 14%);
+  --shadow-up: 0 -6px 22px rgb(16 32 42 / 16%);
+
+  --navbar-h: 56px;
+  --chipbar-h: 60px;
+  /* Muss zu SHEET_PEEK_PX in src/layout.ts passen. */
+  --sheet-peek: 204px;
+
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --page-max: 1400px;
+  --prose-max: 68ch;
+
+  /* Mindestgröße für Bedienelemente (WCAG 2.5.8 / 2.5.5). */
+  --touch-target: 44px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --navbar-h: 64px;
+  }
+}

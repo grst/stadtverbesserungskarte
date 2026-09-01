@@ -1,0 +1,63 @@
+/**
+ * Typen der Inhaltsdateien unter data/.
+ *
+ * Die Dateien werden beim Build von scripts/validate-data.mjs gegen ihre JSON
+ * Schemas geprüft. Die Typen hier spiegeln die Schemas, erzwingen sie aber
+ * nicht – die Validierung ist die maßgebliche Instanz.
+ */
+
+/**
+ * Ebenen-ID. Absichtlich `string` und keine Union: eine neue Ebene soll nur
+ * data/layers.json und die Enum in data/items.schema.json betreffen, nicht den
+ * TypeScript-Code.
+ */
+export type LayerId = string
+
+export interface Layer {
+  id: LayerId
+  label: string
+  /** Schlüssel in der Icon-Registry, siehe src/components/Icon.tsx. */
+  icon: string
+  /** Akzentfarbe der Ebene, für Chips und Kartenpins. */
+  color: string
+  description: string
+}
+
+export interface ItemImages {
+  before: string
+  after: string
+  beforeAlt: string
+  afterAlt: string
+}
+
+export interface Item {
+  id: string
+  title: string
+  location: { lat: number; lon: number }
+  layers: LayerId[]
+  images: ItemImages
+  description: string
+  author: string
+}
+
+/** Bewertung einer Radverbindung. `unknown` = noch nicht bewertet. */
+export type Safety = 'safe' | 'medium' | 'unsafe' | 'unknown'
+
+export interface GraphNode {
+  id: string
+  name: string
+  lat: number
+  lon: number
+}
+
+export interface GraphEdge {
+  from: string
+  to: string
+  safety: Safety
+  note?: string
+}
+
+export interface OrtsteileGraph {
+  nodes: GraphNode[]
+  edges: GraphEdge[]
+}
