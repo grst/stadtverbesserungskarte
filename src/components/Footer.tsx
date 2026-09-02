@@ -25,7 +25,7 @@ export function Footer() {
         <Link className="footer-link" to="/datenschutz">
           Datenschutz
         </Link>
-        <span className="footer-copy">© {new Date().getFullYear()} Stadtverbesserungskarte</span>
+        <span className="footer-copy">© {new Date().getFullYear()} Stadtverbesserungskarte Immenstadt</span>
       </nav>
     </footer>
   )

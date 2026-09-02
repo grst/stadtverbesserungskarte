@@ -14,31 +14,31 @@ npm install
 npm run dev          # Entwicklungsserver auf http://localhost:5173
 ```
 
-| Befehl | Zweck |
-| --- | --- |
-| `npm run dev` | Entwicklungsserver mit Hot Reload |
-| `npm run build` | Validierung, Typprüfung und Produktionsbuild nach `dist/` |
-| `npm run preview` | `dist/` lokal ausliefern (http://localhost:4173) |
-| `VITE_BASE=/repo/ npm run build && VITE_BASE=/repo/ npm run preview` | Deployment unter einem Unterpfad testen (`VITE_BASE` muss bei *beiden* Befehlen gesetzt sein) |
-| `npm run items` | `data/items.json` aus den Ordnern unter `data/items/` kompilieren |
-| `npm run validate` | `data/*.json` gegen die Schemas und Querverweise prüfen |
-| `npm run licenses` | `public/licenses.txt` aus den `dependencies` neu erzeugen |
-| `npm run typecheck` | TypeScript ohne Ausgabe prüfen |
-| `npm run a11y` | axe-core über alle Ansichten laufen lassen (Preview muss laufen) |
-| `npm run interactions` | Zoomen/Verschieben per Maus, Touch und Tastatur prüfen (`npm run dev` muss laufen) |
-| `npm run shots` | Screenshots aller Ansichten in `.tmp/screenshots/` (Preview muss laufen) |
-| `npm run placeholders` | Platzhalterbilder aus `data/items.json` neu erzeugen |
+  | Befehl                                                               | Zweck                                                                                         |
+  | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+  | `npm run dev`                                                        | Entwicklungsserver mit Hot Reload                                                             |
+  | `npm run build`                                                      | Validierung, Typprüfung und Produktionsbuild nach `dist/`                                     |
+  | `npm run preview`                                                    | `dist/` lokal ausliefern (http://localhost:4173)                                              |
+  | `VITE_BASE=/repo/ npm run build && VITE_BASE=/repo/ npm run preview` | Deployment unter einem Unterpfad testen (`VITE_BASE` muss bei *beiden* Befehlen gesetzt sein) |
+  | `npm run items`                                                      | `data/items.json` aus den Ordnern unter `data/items/` kompilieren                             |
+  | `npm run validate`                                                   | `data/*.json` gegen die Schemas und Querverweise prüfen                                       |
+  | `npm run licenses`                                                   | `public/licenses.txt` aus den `dependencies` neu erzeugen                                     |
+  | `npm run typecheck`                                                  | TypeScript ohne Ausgabe prüfen                                                                |
+  | `npm run a11y`                                                       | axe-core über alle Ansichten laufen lassen (Preview muss laufen)                              |
+  | `npm run interactions`                                               | Zoomen/Verschieben per Maus, Touch und Tastatur prüfen (`npm run dev` muss laufen)            |
+  | `npm run shots`                                                      | Screenshots aller Ansichten in `.tmp/screenshots/` (Preview muss laufen)                      |
+  | `npm run placeholders`                                               | Platzhalterbilder aus `data/items.json` neu erzeugen                                          |
 
 ## Inhalte pflegen
 
-Der gesamte Inhalt liegt in `data/` und `content/` – für nichts davon muss
-Code angefasst werden. Nach jeder Änderung `npm run validate` laufen lassen;
-derselbe Schritt läuft auch im Build und in der GitHub-Action.
+Der gesamte Inhalt liegt in `data/` und `content/` -- für nichts davon muss Code
+angefasst werden. Nach jeder Änderung `npm run validate` laufen lassen; derselbe
+Schritt läuft auch im Build und in der GitHub-Action.
 
 ### Einen Vorschlag hinzufügen
 
 Ein Vorschlag ist ein Ordner unter `data/items/`. Der Ordnername ist die `id`
-des Vorschlags und steckt in der Adresse der Detailseite (`/vorschlag/<id>`) –
+des Vorschlags und steckt in der Adresse der Detailseite (`/vorschlag/<id>`) --
 er sollte sich also nicht mehr ändern, sobald ein Link geteilt wurde.
 
 ```
@@ -79,59 +79,59 @@ Listen, Links und weitere Bilder sind erlaubt:
 ![Bildbeschreibung](weiteres-bild.jpg)
 ```
 
-Alle Bildpfade – im Frontmatter wie im Text – sind relativ zur `description.md`.
-Die beiden `*Alt`-Texte sind Pflicht: ohne sie ist ein Bildvergleich für
-Menschen, die die Bilder nicht sehen können, wertlos. `copyright` ist ebenfalls
-Pflicht und erscheint unter dem Vergleich; das Zeichen © stellt die App voran.
+Alle Bildpfade -- im Frontmatter wie im Text -- sind relativ zur
+`description.md`. Die beiden `*Alt`-Texte sind Pflicht: ohne sie ist ein
+Bildvergleich für Menschen, die die Bilder nicht sehen können, wertlos.
+`copyright` ist ebenfalls Pflicht und erscheint unter dem Vergleich; das Zeichen
+© stellt die App voran.
 
-Koordinaten lassen sich in [OpenStreetMap](https://www.openstreetmap.org/)
-per Rechtsklick → „Adresse anzeigen“ ablesen.
+Koordinaten lassen sich in [OpenStreetMap](https://www.openstreetmap.org/) per
+Rechtsklick → „Adresse anzeigen" ablesen.
 
-Aus den Ordnern wird `data/items.json` kompiliert – **diese Datei nicht von
+Aus den Ordnern wird `data/items.json` kompiliert -- **diese Datei nicht von
 Hand bearbeiten**, sie wird bei jedem Speichern im laufenden `npm run dev`, bei
 `npm run items` und im Build überschrieben. `npm run validate` meldet, wenn sie
 nicht mehr zu den Ordnern passt. Dasselbe gilt für
 `src/data/itemImages.generated.ts`: dort importiert der Kompilierschritt jedes
 verwendete Bild einzeln, damit Vite genau diese Bilder in den Build übernimmt.
 
-Ein Ordner ohne `description.md` wird übersprungen (mit Hinweis in der
-Konsole) – so kann Material für einen Vorschlag schon im Repository liegen,
-bevor der Vorschlag fertig ist. Ein Ordner mit unvollständiger
-`description.md` bricht die Kompilierung dagegen ab und meldet Feld für Feld,
-was fehlt.
+Ein Ordner ohne `description.md` wird übersprungen (mit Hinweis in der Konsole) --
+so kann Material für einen Vorschlag schon im Repository liegen, bevor der
+Vorschlag fertig ist. Ein Ordner mit unvollständiger `description.md` bricht die
+Kompilierung dagegen ab und meldet Feld für Feld, was fehlt.
 
 ### Radverbindungen bewerten
 
 `data/ortsteile-graph.json` enthält die 15 Immenstädter Ortsteile als Knoten,
 dazu die angrenzenden Nachbarorte (Niedersonthofen, Oberdorf, Untermaiselstein,
 Blaichach, Thalkirchdorf, Missen), damit auch die Verbindungen aus dem
-Stadtgebiet heraus bewertet werden können. Kanten sind die Verbindungen
-zwischen benachbarten Orten. Für jede Kante das Feld `safety` setzen:
+Stadtgebiet heraus bewertet werden können. Kanten sind die Verbindungen zwischen
+benachbarten Orten. Für jede Kante das Feld `safety` setzen:
 
-| Wert | Darstellung in der Karte |
-| --- | --- |
-| `"safe"` | grün, durchgezogen |
-| `"medium"` | orange, gestrichelt |
-| `"unsafe"` | rot, gepunktet |
-| `"unknown"` | grau, dünn – Ausgangswert, „noch nicht bewertet“ |
+  | Wert        | Darstellung in der Karte                         |
+  | ----------- | ------------------------------------------------ |
+  | `"safe"`    | grün, durchgezogen                               |
+  | `"medium"`  | orange, gestrichelt                              |
+  | `"unsafe"`  | rot, gepunktet                                   |
+  | `"unknown"` | grau, dünn – Ausgangswert, „noch nicht bewertet“ |
 
 Optional lässt sich pro Kante eine kurze Begründung in `note` hinterlegen; sie
 erscheint, wenn man in der Karte auf die Verbindung klickt.
 
-Alle Kanten starten als `"unknown"`. Die Bewertung wird doppelt kodiert – über
-Farbe *und* Strichmuster –, damit sie nicht allein von der Farbe abhängt.
+Alle Kanten starten als `"unknown"`. Die Bewertung wird doppelt kodiert -- über
+Farbe *und* Strichmuster --, damit sie nicht allein von der Farbe abhängt.
 
 Neue Ortsteile oder Verbindungen einfach ergänzen; `npm run validate` meldet
 Kanten mit unbekannten Knoten, Dubletten (auch in umgekehrter Richtung) und
 Knoten ohne Kante.
 
-Läuft eine Verbindung über einen Punkt, der selbst kein Ort ist – ein Abzweig,
-ein Kreisverkehr –, bekommt dieser Punkt einen eigenen Knoten mit
+Läuft eine Verbindung über einen Punkt, der selbst kein Ort ist -- ein Abzweig,
+ein Kreisverkehr --, bekommt dieser Punkt einen eigenen Knoten mit
 `"kind": "junction"`. Die Verbindung wird dort geteilt, sodass sich ihre
 Abschnitte getrennt bewerten lassen. Solche Knoten zeichnet die Karte als
 kleinen grauen Punkt ohne Beschriftung; ihr Name erscheint nur im Popup der
-angrenzenden Verbindungen. Ortsknoten brauchen das Feld nicht, `"place"` ist
-der Standard.
+angrenzenden Verbindungen. Ortsknoten brauchen das Feld nicht, `"place"` ist der
+Standard.
 
 ### Eine Ebene hinzufügen
 
@@ -144,16 +144,12 @@ der Standard.
 
 ### Textseiten
 
-Die Dateien in `content/` sind Markdown und werden beim Build zu den
-Textseiten kompiliert: `info.md` → `/info`, `idee-einreichen.md` →
-`/idee-einreichen`, `impressum.md` → `/impressum`, `datenschutz.md` →
-`/datenschutz`. Absolute Links im Text (`/info`, `/licenses.txt`) beziehen
-sich auf die App-Wurzel; `MarkdownPage` setzt den Basispfad davor, damit sie
-auch unter `VITE_BASE` stimmen.
-
-Aktuell enthalten `info.md` und `idee-einreichen.md` Platzhaltertext.
-`impressum.md` und `datenschutz.md` haben `TODO`-Markierungen an den Stellen,
-an denen Name und Anschrift fehlen – siehe *Offene Punkte*.
+Die Dateien in `content/` sind Markdown und werden beim Build zu den Textseiten
+kompiliert: `info.md` → `/info`, `idee-einreichen.md` → `/idee-einreichen`,
+`impressum.md` → `/impressum`, `datenschutz.md` → `/datenschutz`. Absolute Links
+im Text (`/info`, `/licenses.txt`) beziehen sich auf die App-Wurzel;
+`MarkdownPage` setzt den Basispfad davor, damit sie auch unter `VITE_BASE`
+stimmen.
 
 ## Aufbau
 
@@ -180,9 +176,9 @@ schmalen Viewports), `marked` + `DOMPurify` (Markdown), `yaml` (Frontmatter),
 React aufgebaut und von React nur ferngesteuert.
 
 `scripts/build-items.mjs` kompiliert die Vorschlagsordner; die `vite.config.ts`
-ruft dasselbe Skript beim Start und bei jeder Änderung unter `data/items/`
-auf. Bilder werden nicht kopiert: sie bleiben in ihrem Ordner und kommen über
-die Importe in `src/data/itemImages.generated.ts` mit Hash im Dateinamen in den
+ruft dasselbe Skript beim Start und bei jeder Änderung unter `data/items/` auf.
+Bilder werden nicht kopiert: sie bleiben in ihrem Ordner und kommen über die
+Importe in `src/data/itemImages.generated.ts` mit Hash im Dateinamen in den
 Build.
 
 Liegen Pins zu dicht beieinander, fasst `ol/source/Cluster` sie zu einer Blase
@@ -191,100 +187,73 @@ bis sie einzeln stehen. Die Schwellen dafür sind `CLUSTER_DISTANCE` und
 `CLUSTER_MIN_DISTANCE` (Pixel) in `src/map/mapController.ts`. Eine Blase trägt
 die Farbe ihrer Ebene, bei gemischten Ebenen ein neutrales Grau.
 
-Das Explore-Panel (`src/components/ExploreSheet.tsx`) ist bewusst selbst
-gebaut. Die verbreiteten Sheet-Bibliotheken modellieren *modale, schließbare*
-Dialoge; `vaul` setzt über Radix' Dialog `aria-hidden="true"` auf den gesamten
-Rest der Seite, was bei einem dauerhaft sichtbaren Panel die komplette Seite
-für Screenreader unsichtbar macht. Die Begründung steht als Kommentar in der
-Datei.
+Das Explore-Panel (`src/components/ExploreSheet.tsx`) ist bewusst selbst gebaut.
+Die verbreiteten Sheet-Bibliotheken modellieren *modale, schließbare* Dialoge;
+`vaul` setzt über Radix' Dialog `aria-hidden="true"` auf den gesamten Rest der
+Seite, was bei einem dauerhaft sichtbaren Panel die komplette Seite für
+Screenreader unsichtbar macht. Die Begründung steht als Kommentar in der Datei.
 
 ## Barrierefreiheit
 
-* Die Karte ist ein Canvas und damit nur begrenzt bedienbar. Als
-  gleichwertige Alternative gibt es die **Listenansicht** („Als Liste
-  anzeigen“) mit allen gefilterten Vorschlägen.
-* Auf der Karte selbst funktionieren die Tastaturinteraktionen von OpenLayers:
+- Die Karte ist ein Canvas und damit nur begrenzt bedienbar. Als gleichwertige
+  Alternative gibt es die **Listenansicht** („Als Liste anzeigen") mit allen
+  gefilterten Vorschlägen.
+- Auf der Karte selbst funktionieren die Tastaturinteraktionen von OpenLayers:
   Pfeiltasten verschieben, `+` und `-` zoomen. Dafür trägt der Kartencontainer
   ein `tabindex`. Weil OpenLayers seine Standardinteraktionen mit
   `onFocusOnly: true` anlegt, würden Mausrad und Ziehen damit erst nach einem
-  Klick in die Karte reagieren – `src/map/mapController.ts` setzt deshalb
-  ausdrücklich `onFocusOnly: false`. `npm run interactions` prüft das.
-  Auf der Karte gehört das Wischen bzw. Scrollen also der Karte. Genau deshalb
-  ist die Fußzeile schmal und dauerhaft sichtbar: `--footer-h` wird aus der
-  Höhe von `.map-section` herausgerechnet, sodass Impressum und Datenschutz
-  ohne Scrollen erreichbar bleiben (§ 5 DDG: „ständig verfügbar“). Wer
-  `--footer-h` ändert, muss nichts weiter anpassen – wer die Fußzeile höher
-  macht als das Token angibt, schiebt sie unter die Falz.
-* Der Vorher/Nachher-Regler ist mit den Pfeiltasten bedienbar und meldet seinen
+  Klick in die Karte reagieren -- `src/map/mapController.ts` setzt deshalb
+  ausdrücklich `onFocusOnly: false`. `npm run interactions` prüft das. Auf der
+  Karte gehört das Wischen bzw. Scrollen also der Karte. Genau deshalb ist die
+  Fußzeile schmal und dauerhaft sichtbar: `--footer-h` wird aus der Höhe von
+  `.map-section` herausgerechnet, sodass Impressum und Datenschutz ohne Scrollen
+  erreichbar bleiben (§ 5 DDG: „ständig verfügbar"). Wer `--footer-h` ändert,
+  muss nichts weiter anpassen -- wer die Fußzeile höher macht als das Token
+  angibt, schiebt sie unter die Falz.
+- Der Vorher/Nachher-Regler ist mit den Pfeiltasten bedienbar und meldet seinen
   Wert als ARIA-Slider.
-* Der Titel-Tooltip am Pin ist eine reine Mausfunktion (`(hover: hover) and
-  (pointer: fine)`, siehe `src/map/mapController.ts`) und deshalb
-  `aria-hidden`. Dieselben Titel stehen im Explore-Panel und in der
+- Der Titel-Tooltip am Pin ist eine reine Mausfunktion
+  (`(hover: hover) and (pointer: fine)`, siehe `src/map/mapController.ts`) und
+  deshalb `aria-hidden`. Dieselben Titel stehen im Explore-Panel und in der
   Listenansicht, wo sie mit Tastatur und Screenreader erreichbar sind.
-* Der Griff des Explore-Panels ist ein Button: Klick schaltet eine Stufe weiter,
+- Der Griff des Explore-Panels ist ein Button: Klick schaltet eine Stufe weiter,
   Pfeil auf/ab, `Home` und `End` steuern die Größe direkt.
-* Bewertungen und Zustände sind nie nur über Farbe kodiert.
-* `npm run a11y` prüft alle Ansichten mit axe-core gegen WCAG 2.2 AA.
-* Die Links in der Fußzeile sind 24 px hoch statt `--touch-target` (44 px).
-  24 px erfüllen WCAG 2.2 AA (2.5.8 *Target Size (Minimum)*); die 44 px aus
-  2.5.5 sind AAA und hätten die Zeile so hoch gemacht, dass sie der Karte
-  spürbar Platz nimmt.
+- Bewertungen und Zustände sind nie nur über Farbe kodiert.
+- `npm run a11y` prüft alle Ansichten mit axe-core gegen WCAG 2.2 AA.
+- Die Links in der Fußzeile sind 24 px hoch statt `--touch-target` (44 px). 24
+  px erfüllen WCAG 2.2 AA (2.5.8 *Target Size (Minimum)*); die 44 px aus 2.5.5
+  sind AAA und hätten die Zeile so hoch gemacht, dass sie der Karte spürbar
+  Platz nimmt.
 
 ## Urheber- und Lizenzhinweise
 
-Wer wo genannt werden muss – und warum das nicht alles in die Fußzeile gehört:
+Wer wo genannt werden muss -- und warum das nicht alles in die Fußzeile gehört:
 
-* **OpenStreetMap** (Kartendaten, ODbL) verlangt einen sichtbaren Vermerk.
-  Den setzt OpenLayers selbst in die Kartenecke: `attributionOptions` in
-  `src/map/mapController.ts` steht auf `collapsible: false`, damit
-  „© OpenStreetMap contributors“ dauerhaft und nicht eingeklappt zu sehen ist,
+- **OpenStreetMap** (Kartendaten, ODbL) verlangt einen sichtbaren Vermerk. Den
+  setzt OpenLayers selbst in die Kartenecke: `attributionOptions` in
+  `src/map/mapController.ts` steht auf `collapsible: false`, damit „©
+  OpenStreetMap contributors" dauerhaft und nicht eingeklappt zu sehen ist,
   verlinkt auf `openstreetmap.org/copyright`. In der Fußzeile stand derselbe
   Vermerk doppelt; er ist dort entfernt.
-* **OpenLayers** steht unter BSD-2-Clause. Die Lizenz fordert *keinen*
+- **OpenLayers** steht unter BSD-2-Clause. Die Lizenz fordert *keinen*
   sichtbaren Hinweis in der Oberfläche, wohl aber, dass Copyright-Vermerk und
   Lizenztext mit der Weitergabe mitgeliefert werden. Vite minifiziert die
-  Lizenzkommentare aus dem Bundle heraus, deshalb erzeugt
-  `scripts/licenses.mjs` die Datei `public/licenses.txt` mit den Vermerken
-  aller `dependencies` (transitiv). Das Impressum verlinkt sie. `npm run build`
-  ruft das Skript mit auf, die Datei ist also nie veraltet.
-* **Fotos** gehören den Einsendenden und sind pro Vorschlag im Frontmatter
-  genannt; die „Nachher“-Bilder sind als KI-Bearbeitung ausgewiesen (in
+  Lizenzkommentare aus dem Bundle heraus, deshalb erzeugt `scripts/licenses.mjs`
+  die Datei `public/licenses.txt` mit den Vermerken aller `dependencies`
+  (transitiv). Das Impressum verlinkt sie. `npm run build` ruft das Skript mit
+  auf, die Datei ist also nie veraltet.
+- **Fotos** gehören den Einsendenden und sind pro Vorschlag im Frontmatter
+  genannt; die „Nachher"-Bilder sind als KI-Bearbeitung ausgewiesen (in
   `src/components/BeforeAfter.tsx` am Bild selbst, nicht nur auf `/info`).
 
 ## Deployment
 
-`.github/workflows/deploy.yml` baut bei jedem Push auf `main` und
-veröffentlicht auf GitHub Pages. Einmalig in den Repository-Einstellungen unter
-*Pages* als Quelle **GitHub Actions** auswählen.
+`.github/workflows/deploy.yml` baut bei jedem Push auf `main` und veröffentlicht
+auf GitHub Pages. Einmalig in den Repository-Einstellungen unter *Pages* als
+Quelle **GitHub Actions** auswählen.
 
 Der Basispfad wird automatisch aus der Pages-Konfiguration abgeleitet, eine
 Projektseite unter `/<repo>/` funktioniert also ohne Zutun. Da GitHub Pages
 keine Rewrites kann, kopiert `scripts/postbuild.mjs` die `index.html` zusätzlich
-nach `404.html` – so funktionieren Deeplinks wie `/vorschlag/<id>` auch nach
+nach `404.html` -- so funktionieren Deeplinks wie `/vorschlag/<id>` auch nach
 einem Reload.
-
-## Offene Punkte
-
-* **Impressum und Datenschutzerklärung sind unvollständig.**
-  `content/impressum.md` und `content/datenschutz.md` existieren und sind unter
-  `/impressum` und `/datenschutz` erreichbar, enthalten aber `TODO`-Zeilen:
-  Name und Postanschrift des Anbieters (§ 5 DDG), der inhaltlich
-  Verantwortliche (§ 18 Abs. 2 MStV) und derselbe Name als Verantwortlicher im
-  Sinne der DSGVO. `grep -rn TODO content/` listet alles auf. Ohne diese
-  Angaben darf die Seite nicht öffentlich gehen.
-  In `datenschutz.md` stehen zusätzlich zwei Punkte, die vor dem Livegang zu
-  prüfen sind (DPF-Zertifizierung von GitHub, Auftragsverarbeitungsvertrag).
-* **Speicherdauer der GitHub-Logs ist unbekannt.** GitHub dokumentiert, *dass*
-  die Besucher-IP protokolliert wird, aber nicht, wie lange. Eine
-  Speicherdauer in der Datenschutzerklärung zu behaupten, wäre eine Erfindung –
-  der Text sagt deshalb ausdrücklich, dass die Dauer nicht bezifferbar ist. Wer
-  eine belastbare Frist angeben will, muss sie bei GitHub erfragen.
-* Alle Radverbindungen sind noch mit `"unknown"` bewertet.
-* **Kein Vorschlag ist fertig.** Die fünf Ordner in `data/items/`
-  (`fidel_schlund`, `radweg_eckarts`, `radweg_flecken`, `radweg_seifen`,
-  `spielplatz_eckarts`) enthalten echte Fotos und KI-Bearbeitungen, aber nur
-  eine `description.md` mit leerem Frontmatter. Solange die Felder leer sind,
-  brechen `npm run items`, `npm run validate` und `npm run build` ab und nennen
-  pro Ordner, was noch fehlt; `npm run dev` läuft weiter und zeigt eine leere
-  Karte. Die Platzhaltervorschläge von früher sind entfernt.
-* Die Texte in `content/` sind noch Platzhalter.
