@@ -31,6 +31,14 @@
 
   --navbar-h: 56px;
   --chipbar-h: 60px;
+  /* Die Fußzeile ist dauerhaft sichtbar und wird von der Kartenhöhe
+     abgezogen. 36px lassen den Links 24px Trefferfläche (WCAG 2.5.8). */
+  --footer-h: 36px;
+  /* Alles, was über der Karte liegt. `--navbar-h` und `--chipbar-h` sind die
+     `min-height` der inneren Zeilen; die 1px-Trennlinie darunter sitzt jeweils
+     am äußeren Element und kommt dazu. Ohne diese 2px rutscht die Fußzeile um
+     genau diesen Betrag unter die Falz. */
+  --map-chrome-h: calc(var(--navbar-h) + 1px + var(--chipbar-h) + 1px);
   /* Muss zu SHEET_PEEK_PX in src/layout.ts passen. */
   --sheet-peek: 204px;
 

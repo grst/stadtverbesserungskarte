@@ -20,7 +20,7 @@ export const navLinks: Array<InternalLink | ExternalLink> = [
   { kind: 'internal', label: 'Info', to: '/info' },
   { kind: 'internal', label: 'Idee einreichen', to: '/idee-einreichen' },
   // Noch nicht erreichbar – die Seite entsteht erst.
-  { kind: 'external', label: 'Grüne Immenstadt', href: 'https://gruene-immenstadt.de' },
+  // { kind: 'external', label: 'Grüne Immenstadt', href: 'https://gruene-immenstadt.de' },
   { kind: 'external', label: 'Grüne Oberallgäu', href: 'https://gruene-oa.de' },
 ]
 

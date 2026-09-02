@@ -1,5 +1,5 @@
 import { Circle, Fill, Icon, Stroke, Style, Text } from 'ol/style'
-import type { Safety } from '../data/types'
+import type { GraphNodeKind, Safety } from '../data/types'
 
 /**
  * Darstellung der Verbindungsbewertung. Die Bewertung wird doppelt kodiert –
@@ -9,6 +9,12 @@ import type { Safety } from '../data/types'
 export interface SafetyAppearance {
   label: string
   description: string
+  /**
+   * Beispiel dafür, was die Bewertung in der Sache heißt. Steht in der Legende
+   * unter der Bewertung und soll die Einordnung einer Verbindung erleichtern.
+   * `unknown` hat keins – „noch nicht bewertet“ beschreibt keinen Weg.
+   */
+  example?: string
   color: string
   /** `undefined` = durchgezogen. */
   lineDash?: number[]
@@ -19,12 +25,14 @@ export const SAFETY_APPEARANCE: Record<Safety, SafetyAppearance> = {
   safe: {
     label: 'Sicher',
     description: 'durchgezogene Linie',
+    example: 'durchgehender, separater Radweg',
     color: '#15803d',
     width: 6,
   },
   medium: {
     label: 'Mittel',
     description: 'gestrichelte Linie',
+    example: 'z. B. Nebenstraße',
     color: '#a1620a',
     lineDash: [16, 10],
     width: 6,
@@ -32,6 +40,7 @@ export const SAFETY_APPEARANCE: Record<Safety, SafetyAppearance> = {
   unsafe: {
     label: 'Unsicher',
     description: 'gepunktete Linie',
+    example: 'z. B. Kreisstraße oder Verbindung mit Gefahrenstellen',
     color: '#b91c1c',
     lineDash: [2, 8],
     width: 7,
@@ -44,10 +53,17 @@ export const SAFETY_APPEARANCE: Record<Safety, SafetyAppearance> = {
   },
 }
 
-/** Reihenfolge der Legendeneinträge. */
-export const SAFETY_ORDER: Safety[] = ['safe', 'medium', 'unsafe', 'unknown']
+/**
+ * Reihenfolge der Legendeneinträge. `unknown` fehlt bewusst: Die Legende
+ * erklärt die Bewertungen, und „noch nicht bewertet“ ist keine. Die dünne
+ * graue Linie bleibt auf der Karte und im Kanten-Popup, wo `SAFETY_APPEARANCE`
+ * sie weiterhin beschreibt.
+ */
+export const SAFETY_ORDER: Safety[] = ['safe', 'medium', 'unsafe']
 
 const NODE_COLOR = '#0f172a'
+/** Straßenpunkte treten hinter die Orte zurück – sie sind selbst kein Ziel. */
+const JUNCTION_COLOR = '#64748b'
 
 /** Weißer Unterstrich, damit die Kanten auf jedem Kartenhintergrund lesbar bleiben. */
 export function edgeCasingStyle(safety: Safety): Style {
@@ -72,7 +88,20 @@ export function edgeStyle(safety: Safety, highlighted: boolean): Style {
   })
 }
 
-export function graphNodeStyle(name: string, zoom: number): Style {
+export function graphNodeStyle(name: string, zoom: number, kind: GraphNodeKind = 'place'): Style {
+  // Ein Straßenpunkt (Abzweig, Kreisverkehr) ist kein Ort: er teilt eine
+  // Verbindung nur auf und bekommt deshalb einen kleinen Punkt ohne
+  // Beschriftung. Sein Name steht im Popup der angrenzenden Verbindungen.
+  if (kind === 'junction') {
+    return new Style({
+      image: new Circle({
+        radius: 3.5,
+        fill: new Fill({ color: JUNCTION_COLOR }),
+        stroke: new Stroke({ color: '#ffffff', width: 2 }),
+      }),
+    })
+  }
+
   return new Style({
     image: new Circle({
       radius: 6,

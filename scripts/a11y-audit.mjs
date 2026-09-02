@@ -21,10 +21,14 @@ const executablePath = process.env.CHROME_PATH ?? '/usr/bin/google-chrome'
 const routes = [
   { name: 'Karte', path: '/' },
   { name: 'Karte, nur Radverkehr', path: '/?ebene=radverkehr' },
-  { name: 'Detail', path: '/vorschlag/bahnhofstrasse-radfahrstreifen' },
+  // Muss eine id aus data/items.json sein – sonst prüft der Lauf nur die
+  // „Vorschlag nicht gefunden“-Seite und nie den Vorher/Nachher-Vergleich.
+  { name: 'Detail', path: '/vorschlag/fidel_schlund' },
   { name: 'Liste', path: '/', clickListToggle: true },
   { name: 'Info', path: '/info' },
   { name: 'Idee einreichen', path: '/idee-einreichen' },
+  { name: 'Impressum', path: '/impressum' },
+  { name: 'Datenschutz', path: '/datenschutz' },
 ]
 
 const viewports = [

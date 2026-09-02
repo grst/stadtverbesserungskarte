@@ -1,5 +1,5 @@
 {
-  "$comment": "Die Bewertung der Radverbindungen wird hier von Hand gepflegt. Erlaubte Werte für safety: \"safe\", \"medium\", \"unsafe\" und \"unknown\". Alle Kanten starten als \"unknown\" und werden dann grau dargestellt.",
+  "$comment": "Die Bewertung der Radverbindungen wird hier von Hand gepflegt. Erlaubte Werte für safety: \"safe\", \"medium\", \"unsafe\" und \"unknown\". Alle Kanten starten als \"unknown\" und werden dann grau dargestellt. Knoten mit \"kind\": \"junction\" sind keine Orte, sondern Straßenpunkte (Abzweige, Kreisverkehre), an denen eine Verbindung geteilt wird; sie werden ohne Beschriftung dargestellt.",
   "nodes": [
     { "id": "immenstadt", "name": "Immenstadt i. Allgäu", "lat": 47.55989, "lon": 10.21905 },
     { "id": "hub", "name": "Hub", "lat": 47.57059, "lon": 10.19802 },
@@ -14,26 +14,51 @@
     { "id": "gnadenberg", "name": "Gnadenberg", "lat": 47.59502, "lon": 10.24116 },
     { "id": "werdenstein", "name": "Werdenstein", "lat": 47.60468, "lon": 10.24671 },
     { "id": "eckarts", "name": "Eckarts", "lat": 47.61093, "lon": 10.24385 },
-    { "id": "seifen", "name": "Seifen", "lat": 47.59542, "lon": 10.2542 }
+    { "id": "seifen", "name": "Seifen", "lat": 47.59542, "lon": 10.2542 },
+    { "id": "braeunlings", "name": "Bräunlings", "lat": 47.5872, "lon": 10.23792 },
+
+    { "id": "niedersonthofen", "name": "Niedersonthofen", "lat": 47.63069, "lon": 10.23562 },
+    { "id": "oberdorf", "name": "Oberdorf b. Immenstadt", "lat": 47.6283, "lon": 10.27234 },
+    { "id": "untermaiselstein", "name": "Untermaiselstein", "lat": 47.57933, "lon": 10.26049 },
+    { "id": "blaichach", "name": "Blaichach", "lat": 47.54386, "lon": 10.25733 },
+    { "id": "thalkirchdorf", "name": "Thalkirchdorf", "lat": 47.55353, "lon": 10.08848 },
+    { "id": "missen", "name": "Missen", "lat": 47.59712, "lon": 10.12564 },
+
+    { "id": "abzweig-knottenried", "name": "Abzweig Knottenried (St 2006)", "kind": "junction", "lat": 47.59183, "lon": 10.18112 },
+    { "id": "kreisel-blaichacher-strasse", "name": "Kreisverkehr Blaichacher Str./Sonthofener Str.", "kind": "junction", "lat": 47.55453, "lon": 10.23165 }
   ],
   "edges": [
-    { "from": "immenstadt", "to": "hub", "safety": "unknown", "note": "" },
+    { "from": "immenstadt", "to": "hub", "safety": "medium", "note": "durchgehender Radweg, aber Anbindung an Innenstadt schlecht" },
     { "from": "immenstadt", "to": "buehl-am-alpsee", "safety": "unknown", "note": "" },
     { "from": "hub", "to": "buehl-am-alpsee", "safety": "unknown", "note": "" },
     { "from": "hub", "to": "zaumberg", "safety": "unknown", "note": "" },
     { "from": "buehl-am-alpsee", "to": "ratholz", "safety": "unknown", "note": "" },
     { "from": "immenstadt", "to": "stein", "safety": "unknown", "note": "" },
-    { "from": "immenstadt", "to": "rauhenzell", "safety": "unknown", "note": "" },
     { "from": "stein", "to": "rauhenzell", "safety": "unknown", "note": "" },
-    { "from": "stein", "to": "gnadenberg", "safety": "unknown", "note": "" },
+    { "from": "stein", "to": "braeunlings", "safety": "unknown", "note": "" },
+    { "from": "braeunlings", "to": "gnadenberg", "safety": "unknown", "note": "" },
+    { "from": "seifen", "to": "stein", "safety": "unknown", "note": "" },
     { "from": "zaumberg", "to": "akams", "safety": "unknown", "note": "" },
-    { "from": "zaumberg", "to": "knottenried", "safety": "unknown", "note": "" },
-    { "from": "akams", "to": "knottenried", "safety": "unknown", "note": "" },
+    { "from": "zaumberg", "to": "abzweig-knottenried", "safety": "unknown", "note": "" },
+    { "from": "knottenried", "to": "abzweig-knottenried", "safety": "unknown", "note": "" },
     { "from": "knottenried", "to": "diepolz", "safety": "unknown", "note": "" },
-    { "from": "akams", "to": "gnadenberg", "safety": "unknown", "note": "" },
+    { "from": "akams", "to": "braeunlings", "safety": "unknown", "note": "" },
     { "from": "gnadenberg", "to": "werdenstein", "safety": "unknown", "note": "" },
     { "from": "werdenstein", "to": "eckarts", "safety": "unknown", "note": "" },
     { "from": "werdenstein", "to": "seifen", "safety": "unknown", "note": "" },
-    { "from": "gnadenberg", "to": "seifen", "safety": "unknown", "note": "" }
+    { "from": "gnadenberg", "to": "seifen", "safety": "unknown", "note": "" }, 
+    { "from": "eckarts", "to": "akams", "safety": "unknown", "note": "" },
+    { "from": "eckarts", "to": "niedersonthofen", "safety": "unknown", "note": "" },
+    { "from": "seifen", "to": "oberdorf", "safety": "unknown", "note": "" },
+    { "from": "eckarts", "to": "oberdorf", "safety": "unknown", "note": "" },
+    { "from": "rauhenzell", "to": "untermaiselstein", "safety": "unknown", "note": "" },
+    { "from": "stein", "to": "untermaiselstein", "safety": "unknown", "note": "" },
+    { "from": "seifen", "to": "untermaiselstein", "safety": "unknown", "note": "" },
+    { "from": "immenstadt", "to": "kreisel-blaichacher-strasse", "safety": "unknown", "note": "" },
+    { "from": "rauhenzell", "to": "kreisel-blaichacher-strasse", "safety": "unknown", "note": "" },
+    { "from": "kreisel-blaichacher-strasse", "to": "blaichach", "safety": "unknown", "note": "" },
+    { "from": "ratholz", "to": "thalkirchdorf", "safety": "unknown", "note": "" },
+    { "from": "diepolz", "to": "missen", "safety": "unknown", "note": "" },
+    { "from": "abzweig-knottenried", "to": "missen", "safety": "unknown", "note": "" }
   ]
 }

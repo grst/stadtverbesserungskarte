@@ -69,7 +69,7 @@
               "maxLength": 300
             },
             "copyright": {
-              "description": "Urheber- und Nutzungsangabe zu den Bildern, wird unter dem Vergleich angezeigt. Beispiel: \"Foto: Vorname Nachname (CC BY-SA 4.0), Nachher-Bild: KI-Bearbeitung des Fotos\".",
+              "description": "Urheber- und Nutzungsangabe zu den Bildern, wird unter dem Vergleich angezeigt. Das Zeichen © stellt die App voran, hier steht nur die Angabe selbst. Beispiel: \"Vorname Nachname (CC BY-SA 4.0), Nachher-Bild: KI-Bearbeitung des Fotos\".",
               "type": "string",
               "minLength": 2,
               "maxLength": 300

@@ -35,6 +35,9 @@ export function GraphLegend() {
               <span className="legend-label">
                 {appearance.label}
                 <span className="legend-hint"> ({appearance.description})</span>
+                {appearance.example && (
+                  <span className="legend-example">{appearance.example}</span>
+                )}
               </span>
             </li>
           )

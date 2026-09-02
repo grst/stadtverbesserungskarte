@@ -37,6 +37,11 @@
           "minLength": 2,
           "maxLength": 60
         },
+        "kind": {
+          "description": "\"place\" (Standard) ist ein Ort, \"junction\" ein reiner Straßenpunkt (Abzweig, Kreisverkehr), an dem eine Verbindung geteilt wird. Straßenpunkte werden in der Karte klein und ohne Beschriftung gezeichnet; ihr Name erscheint nur im Popup der Verbindung.",
+          "enum": ["place", "junction"],
+          "default": "place"
+        },
         "lat": { "type": "number", "minimum": -90, "maximum": 90 },
         "lon": { "type": "number", "minimum": -180, "maximum": 180 }
       }

@@ -8,7 +8,17 @@ import { renderMarkdown } from '../data/markdown'
 export function MarkdownPage({ markdown, title }: { markdown: string; title: string }) {
   const containerRef = useRef<HTMLElement>(null)
 
-  const html = useMemo(() => renderMarkdown(markdown), [markdown])
+  const html = useMemo(
+    () =>
+      renderMarkdown(markdown, {
+        // Absolute Pfade im Text zeigen auf die App-Wurzel, nicht auf die
+        // Domain-Wurzel – auf einer GitHub-Projektseite ist das ein
+        // Unterschied.
+        resolveLink: (href) =>
+          href.startsWith('/') ? `${import.meta.env.BASE_URL.replace(/\/$/, '')}${href}` : href,
+      }),
+    [markdown],
+  )
 
   useEffect(() => {
     document.title = `${title} – Stadtverbesserungskarte Immenstadt i. Allgäu`

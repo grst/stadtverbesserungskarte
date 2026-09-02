@@ -16,7 +16,7 @@ import { defaults as defaultInteractions } from 'ol/interaction/defaults'
 import type { FeatureLike } from 'ol/Feature'
 import type { Coordinate } from 'ol/coordinate'
 import { graph, graphNodeById, layerById } from '../data/content'
-import type { GraphEdge, Item, LayerId } from '../data/types'
+import type { GraphEdge, GraphNodeKind, Item, LayerId } from '../data/types'
 import {
   MIXED_CLUSTER_COLOR,
   clusterStyle,
@@ -42,6 +42,16 @@ const CLUSTER_MIN_DISTANCE = 28
 /** Zoomstufe, bis zu der das Aufklappen einer Blase höchstens hineinzoomt. */
 const CLUSTER_EXPAND_MAX_ZOOM = 18
 const CLUSTER_ANIMATION_MS = 400
+
+/** Höhe eines Pins in Pixeln (32 × 44 px, hervorgehoben 1,1-fach skaliert). */
+const PIN_HEIGHT_PX = 48
+
+/**
+ * Der Titel-Tooltip erscheint nur mit einem Zeigegerät, das schweben kann.
+ * Auf einem Touchscreen löst ein Tippen ebenfalls `pointermove` aus – der
+ * Tooltip würde danach stehen bleiben.
+ */
+const HOVER_CAPABLE = '(hover: hover) and (pointer: fine)'
 
 interface EdgeGeometryEnds {
   edge: GraphEdge
@@ -145,7 +155,11 @@ export function createMapController(
   const nodeLayer = new VectorLayer({
     source: nodeSource,
     style: (feature, resolution) =>
-      graphNodeStyle(feature.get('name') as string, view.getZoomForResolution(resolution) ?? 0),
+      graphNodeStyle(
+        feature.get('name') as string,
+        view.getZoomForResolution(resolution) ?? 0,
+        feature.get('nodeKind') as GraphNodeKind,
+      ),
     zIndex: 12,
     declutter: true,
   })
@@ -160,6 +174,40 @@ export function createMapController(
     autoPan: { animation: { duration: 200 } },
   })
 
+  // Tooltip mit dem Titel des überfahrenen Pins. Anders als das Popup hat er
+  // keinen React-Inhalt – deshalb baut der Controller sein Element selbst.
+  const tooltipElement = document.createElement('div')
+  tooltipElement.className = 'map-tooltip'
+  // Rein visuelle Hilfe für die Maus: Tastatur und Screenreader bekommen die
+  // Titel über das Explore-Panel und die Listenansicht.
+  tooltipElement.setAttribute('aria-hidden', 'true')
+
+  const tooltip = new Overlay({
+    element: tooltipElement,
+    positioning: 'bottom-center',
+    // Über der Pinspitze, damit der Pin selbst frei bleibt.
+    offset: [0, -PIN_HEIGHT_PX - 6],
+    // Der Tooltip liegt außerhalb des Containers, der Events abfängt – er soll
+    // Ziehen und Klicken auf der Karte nicht behindern.
+    stopEvent: false,
+    // OpenLayers legt das Element in einen eigenen Container. Ohne eigene
+    // Klasse (Standard: `ol-overlay-container ol-selectable`) ließe sich dessen
+    // `pointer-events` nicht abschalten – der Container würde Klicks über dem
+    // Pin abfangen, obwohl der Tooltip selbst sie durchlässt.
+    className: 'ol-overlay-container map-tooltip-container',
+  })
+
+  const hoverCapable = window.matchMedia(HOVER_CAPABLE)
+
+  function hideTooltip(): void {
+    tooltip.setPosition(undefined)
+  }
+
+  function showTooltip(title: string, coordinate: Coordinate): void {
+    tooltipElement.textContent = title
+    tooltip.setPosition(coordinate)
+  }
+
   const map = new Map({
     target,
     view,
@@ -173,7 +221,7 @@ export function createMapController(
       ...graphLayers,
       itemLayer,
     ],
-    overlays: [popup],
+    overlays: [popup, tooltip],
     // OpenLayers legt seine Standardinteraktionen mit `onFocusOnly: true` an.
     // Sobald das Zielelement ein `tabindex` hat – und das braucht es für die
     // Tastaturbedienung – reagieren Mausrad und Ziehen dann erst, wenn der Fokus
@@ -195,12 +243,15 @@ export function createMapController(
     }),
   })
 
+  const viewport = map.getViewport()
+
   // ------------------------------------------------------------- Graphaufbau
   for (const node of graph.nodes) {
     const feature = new Feature({ geometry: new Point(fromLonLat([node.lon, node.lat])) })
     feature.set('kind', 'node')
     feature.set('name', node.name)
     feature.set('nodeId', node.id)
+    feature.set('nodeKind', node.kind ?? 'place')
     nodeSource.addFeature(feature)
   }
 
@@ -327,54 +378,70 @@ export function createMapController(
     },
 
     dispose() {
+      viewport.removeEventListener('pointerleave', hideTooltip)
+      tooltipElement.remove()
       map.setTarget(undefined)
       map.dispose()
     },
   }
 
   map.on('click', (event) => {
-    let handled = false
+    // Erst alles unter dem Zeiger einsammeln, dann entscheiden: Pins haben
+    // Vorrang vor Radverbindungen. OpenLayers liefert die Treffer nicht in der
+    // Reihenfolge der Ebenen – am Fuß eines Pins, der auf einer Kante steht,
+    // käme sonst das Popup der Verbindung statt des Vorschlags.
+    let pinMembers: Feature<Point>[] | null = null
+    let hitEdge: EdgeGeometryEnds | null = null
+
     map.forEachFeatureAtPixel(
       event.pixel,
       (feature) => {
-        if (handled) return true
         const members = clusterMembers(feature)
         if (members.length > 0) {
-          handled = true
-          controller.hidePopup()
-          // Ein einzelner Pin öffnet den Vorschlag, eine Blase klappt auf.
-          if (members.length === 1) {
-            controller.onItemActivate(members[0].get('itemId') as string)
-          } else {
-            expandCluster(members)
-          }
+          pinMembers = members
           return true
         }
-        const kind = feature.get('kind')
-        if (kind === 'edge') {
-          handled = true
-          controller.onEdgeActivate({
+        if (feature.get('kind') === 'edge' && !hitEdge) {
+          hitEdge = {
             edge: edgeOf(feature),
             fromName: feature.get('fromName') as string,
             toName: feature.get('toName') as string,
-          })
-          popup.setPosition(event.coordinate)
-          return true
+          }
         }
         return false
       },
       { hitTolerance: 8, layerFilter: (layer) => layer !== edgeCasingLayer },
     )
 
-    if (!handled) {
+    if (pinMembers) {
+      const members: Feature<Point>[] = pinMembers
       controller.onEdgeActivate(null)
       controller.hidePopup()
+      // Ein einzelner Pin öffnet den Vorschlag, eine Blase klappt auf.
+      if (members.length === 1) {
+        controller.onItemActivate(members[0].get('itemId') as string)
+      } else {
+        expandCluster(members)
+      }
+      return
     }
+
+    if (hitEdge) {
+      controller.onEdgeActivate(hitEdge)
+      popup.setPosition(event.coordinate)
+      return
+    }
+
+    controller.onEdgeActivate(null)
+    controller.hidePopup()
   })
 
   map.on('pointermove', (event) => {
     if (event.dragging) return
     let itemId: string | null = null
+    let itemTitle: string | null = null
+    /** Position des *gezeichneten* Pins – bei Blasen weicht sie vom Punkt ab. */
+    let itemCoordinate: Coordinate | null = null
     let edgeKey: string | null = null
     let overCluster = false
     map.forEachFeatureAtPixel(
@@ -383,6 +450,9 @@ export function createMapController(
         const members = clusterMembers(feature)
         if (members.length === 1 && !itemId) {
           itemId = members[0].get('itemId') as string
+          itemTitle = members[0].get('title') as string
+          const geometry = feature.getGeometry()
+          itemCoordinate = geometry instanceof Point ? geometry.getCoordinates() : null
         } else if (members.length > 1) {
           // Über einer Blase wird kein einzelner Vorschlag hervorgehoben.
           overCluster = true
@@ -401,8 +471,19 @@ export function createMapController(
       hoveredEdgeKey = edgeKey
       edgeLayer.changed()
     }
+    if (itemTitle && itemCoordinate && hoverCapable.matches) {
+      showTooltip(itemTitle, itemCoordinate)
+    } else {
+      hideTooltip()
+    }
     controller.onItemHover(itemId)
   })
+
+  // Verlässt der Zeiger die Karte, bleibt sonst der letzte Tooltip stehen.
+  viewport.addEventListener('pointerleave', hideTooltip)
+  // Beim Verschieben und Zoomen wandern die Pins unter dem Zeiger weg; der
+  // nächste `pointermove` zeigt den Tooltip gegebenenfalls wieder an.
+  map.on('movestart', hideTooltip)
 
   return controller
 }

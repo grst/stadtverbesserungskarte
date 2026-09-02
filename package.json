@@ -6,9 +6,10 @@
   "description": "Stadtverbesserungskarte Immenstadt i. Allgäu – Karte mit Verbesserungsvorschlägen für die Stadt",
   "scripts": {
     "dev": "npm run items && vite",
-    "build": "npm run items && npm run validate && tsc -b && vite build && node scripts/postbuild.mjs",
+    "build": "npm run items && npm run validate && npm run licenses && tsc -b && vite build && node scripts/postbuild.mjs",
     "preview": "vite preview",
     "items": "node scripts/build-items.mjs",
+    "licenses": "node scripts/licenses.mjs",
     "validate": "node scripts/validate-data.mjs",
     "typecheck": "tsc -b --noEmit",
     "placeholders": "node scripts/make-placeholder-images.mjs",

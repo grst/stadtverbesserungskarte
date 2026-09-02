@@ -17,13 +17,19 @@ export interface MarkdownOptions {
    * im Markdown stehen.
    */
   resolveImage?: (src: string) => string
+  /**
+   * Löst Linkziele auf. Nötig für absolute Pfade wie `/impressum`: auf einer
+   * GitHub-Projektseite liegt die App unter `/<repo>/`, ein `/impressum` im
+   * Markdown würde also ins Leere führen.
+   */
+  resolveLink?: (href: string) => string
 }
 
 const escapeHtml = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 export function renderMarkdown(markdown: string, options: MarkdownOptions = {}): string {
-  const { headingOffset = 0, resolveImage } = options
+  const { headingOffset = 0, resolveImage, resolveLink } = options
   const renderer: RendererObject = {}
 
   if (headingOffset !== 0) {
@@ -38,6 +44,16 @@ export function renderMarkdown(markdown: string, options: MarkdownOptions = {}):
       const attributes = [`src="${escapeHtml(resolveImage(href))}"`, `alt="${escapeHtml(text)}"`]
       if (title) attributes.push(`title="${escapeHtml(title)}"`)
       return `<img ${attributes.join(' ')} loading="lazy">`
+    }
+  }
+
+  if (resolveLink) {
+    renderer.link = function link({ href, title, tokens }) {
+      const attributes = [`href="${escapeHtml(resolveLink(href))}"`]
+      if (title) attributes.push(`title="${escapeHtml(title)}"`)
+      // Externe Ziele bekommen dasselbe `rel` wie die Links im übrigen UI.
+      if (/^https?:/i.test(href)) attributes.push('rel="noreferrer"')
+      return `<a ${attributes.join(' ')}>${this.parser.parseInline(tokens)}</a>`
     }
   }
 

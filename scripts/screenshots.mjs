@@ -50,13 +50,14 @@ for (const viewport of viewports) {
   // Detailansicht über das Explore-Panel öffnen
   const firstTile = page.locator('.sheet-strip .tile').first()
   await firstTile.click()
-  await page.waitForTimeout(1200)
+  // Lang genug warten, dass die einmalige Bewegung des Vergleichs durch ist.
+  await page.waitForTimeout(1800)
   await shot('02-detail')
 
-  // Vergleichsregler bewegen
-  const slider = page.locator('.beforeafter-slider')
-  await slider.focus()
-  for (let i = 0; i < 12; i++) await page.keyboard.press('ArrowRight')
+  // Vergleich umschalten. Über den Knopf und nicht über die Pfeiltasten: Das
+  // Web Component schiebt den Regler, solange die Taste gedrückt ist, und
+  // Playwrights `press()` ist dafür zu kurz.
+  await page.locator('.beforeafter-mode', { hasText: 'Nachher' }).click()
   await page.waitForTimeout(400)
   await shot('03-detail-regler')
 

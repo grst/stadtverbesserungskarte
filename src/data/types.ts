@@ -48,9 +48,17 @@ export interface Item {
 /** Bewertung einer Radverbindung. `unknown` = noch nicht bewertet. */
 export type Safety = 'safe' | 'medium' | 'unsafe' | 'unknown'
 
+/**
+ * `place` ist ein Ort, `junction` ein reiner Straßenpunkt (Abzweig,
+ * Kreisverkehr), der eine Verbindung nur unterteilt. Fehlt das Feld, gilt
+ * `place`.
+ */
+export type GraphNodeKind = 'place' | 'junction'
+
 export interface GraphNode {
   id: string
   name: string
+  kind?: GraphNodeKind
   lat: number
   lon: number
 }
