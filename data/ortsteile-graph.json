@@ -51,7 +51,7 @@
     { "from": "eckarts", "to": "niedersonthofen", "safety": "unsafe","note": "Kreisstraße ohne Radweg" },
     { "from": "seifen", "to": "oberdorf", "safety": "safe", "note": "Illerdamm bis Auffahrt B19, Unterführung unter OA5, dann entlang des Bahngleises. Nicht vollständig asphaltiert." },
     { "from": "eckarts", "to": "oberdorf", "safety": "safe", "note": "Über Kiesweg Werdensteiner Moos sicher möglich. Asphaltierte Route Richtung Niedersonthofen unsicher." },
-    { "from": "rauhenzell", "to": "untermaiselstein", "safety": "unknown", "note": "Durchgehender Fuß-/Radweg." },
+    { "from": "rauhenzell", "to": "untermaiselstein", "safety": "safe", "note": "Durchgehender Fuß-/Radweg." },
     { "from": "stein", "to": "untermaiselstein", "safety": "safe", "note": "Sowohl über Illerdamm als auch asphaltiert über Radweg via Zollbrücke sicher befahrbar." },
     { "from": "seifen", "to": "untermaiselstein", "safety": "safe", "note": "Über Illerdamm (nicht asphaltiert) sicher befahrbar." },
     { "from": "immenstadt", "to": "kreisel-blaichacher-strasse", "safety": "medium", "note": "Kein durchgehender Radweg. Radweg Sonthofnerstr. ist im Bau." },

@@ -42,7 +42,7 @@ export const SAFETY_APPEARANCE: Record<Safety, SafetyAppearance> = {
     description: 'gepunktete Linie',
     example: 'z. B. Kreisstraße oder Verbindung mit Gefahrenstellen',
     color: '#b91c1c',
-    lineDash: [2, 8],
+    lineDash: [4, 4],
     width: 7,
   },
   unknown: {

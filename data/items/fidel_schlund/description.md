@@ -18,4 +18,5 @@ images:
     Sitzbänken in ihrem Schatten und einer mit Wein überwachsenen Pergola.
   copyright: Gregor Sturm
 ---
-Lorem ipsum
+
+Der Fidel-Schlund-Platz
