@@ -16,7 +16,10 @@ Kosten-/Nutzenverhältnis steht.
 ## Ebenen
 
 - **Radverkehr** -- Vorschläge für sicheres und bequemes Radfahren, dazu eine
-  Bewertung der Radverbindungen zwischen den Immenstädter Ortsteilen.
+  Bewertung der Radverbindungen zwischen den Immenstädter Ortsteilen: Die Punkte
+  in der Karte sind die Ortsteile, die Linien dazwischen die Radverbindungen.
+  Farbe, Strichmuster und das Wort an der Linie zeigen, wie sicher eine
+  Verbindung zu fahren ist; ein Klick auf eine Linie nennt die Begründung.
 - **Klimafolgenanpassung** -- Vorschläge, die die Stadt gegen Hitze, Starkregen
   und Trockenheit wappnen.
 

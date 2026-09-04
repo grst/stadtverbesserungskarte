@@ -15,7 +15,8 @@ Ein Datenschutzbeauftragter ist für ein Angebot dieser Größe nicht bestellt.
   („Cookie-Banner") ist deshalb nicht nötig.
 - Sie nutzt **keine Analyse- oder Trackingdienste** und keine Werbenetzwerke.
 - Sie lädt **keine externen Schriftarten**. Die Seite verwendet die auf dem
-  Gerät bereits vorhandenen Systemschriften.
+  Gerät bereits vorhandenen Systemschriften --- auch für die Beschriftungen in
+  der Karte.
 - Es gibt **kein Kontaktformular**. Vorschläge kommen per E-Mail (siehe unten).
 
 Ausgewählte Ebenen und geöffnete Vorschläge stehen in der Adresszeile (z. B.
@@ -56,19 +57,40 @@ eigener Angabe auf die Standardvertragsklauseln der EU-Kommission
 Datenschutzerklärung von GitHub:
 <https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement>
 
-## Kartendaten: OpenStreetMap
+## Kartenkacheln: OpenFreeMap
 
-Die Kartenkacheln lädt Ihr Browser direkt von Servern der OpenStreetMap
-Foundation (St John's Innovation Centre, Cowley Road, Cambridge, CB4 0WS,
-Vereinigtes Königreich). Dabei werden Ihre IP-Adresse und die Angabe, welchen
-Kartenausschnitt Sie betrachten, an die OSMF übertragen --- ohne diese
-Übertragung kann keine Karte angezeigt werden.
+Die Karte besteht aus Vektorkacheln, die Ihr Browser direkt von OpenFreeMap
+lädt (Betreiberin: Hyperknot Software Kft., Ungarn). Dazu gehören neben den
+Kacheln selbst der Kartenstil und die Symbole der Karte. Dabei werden Ihre
+IP-Adresse und die Angabe, welchen Kartenausschnitt Sie betrachten,
+übertragen --- ohne diese Übertragung kann keine Karte angezeigt werden. Die
+Kartendaten stammen weiterhin aus OpenStreetMap; zu Servern der OpenStreetMap
+Foundation baut diese Website aber keine Verbindung mehr auf.
+
+Nach eigener Angabe protokolliert OpenFreeMap keine IP-Adressen, setzt keine
+Cookies und verwendet keine Trackingtechniken. Erkennt der Betrieb einen
+Sicherheitsvorfall oder Missbrauch, kann die Protokollierung von IP-Adressen
+vorübergehend eingeschaltet werden; solche Protokolle werden nach höchstens 30
+Tagen gelöscht. Die regulären Protokolle enthalten nach dieser Angabe keine
+IP-Adressen, sondern Browsertyp, Betriebssystem, Verweisseite und Zeitpunkt.
 
 Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; das berechtigte Interesse ist
-die Darstellung der Karte, die den Kern dieses Angebots bildet. Für das
-Vereinigte Königreich besteht ein Angemessenheitsbeschluss nach Art. 45 DSGVO.
+die Darstellung der Karte, die den Kern dieses Angebots bildet. Die Betreiberin
+sitzt in Ungarn, also in der EU.
 
-Datenschutzerklärung der OSMF: <https://osmfoundation.org/wiki/Privacy_Policy>
+Zur Auslieferung setzt OpenFreeMap nach eigener Angabe Cloudflare als
+Content-Delivery-Netz ein; die Kacheln werden derzeit tatsächlich über
+Cloudflare ausgeliefert. Anbieterin ist die Cloudflare, Inc., 101 Townsend St.,
+San Francisco, CA 94107, USA. Die Auslieferung erfolgt über Serverstandorte in
+Europa, ein Zugriff aus den USA ist damit aber nicht ausgeschlossen. Cloudflare
+hat sich gegenüber dem US-Handelsministerium zur Einhaltung des EU-US Data
+Privacy Framework verpflichtet; insoweit greift der Angemessenheitsbeschluss
+der EU-Kommission nach Art. 45 DSGVO. Ergänzend stützt Cloudflare
+Übermittlungen nach eigener Angabe auf die Standardvertragsklauseln der
+EU-Kommission (Art. 46 Abs. 2 lit. c DSGVO).
+
+Datenschutzerklärung von OpenFreeMap: <https://openfreemap.org/privacy/>\
+Datenschutzerklärung von Cloudflare: <https://www.cloudflare.com/privacypolicy/>
 
 ## Kontakt per E-Mail
 

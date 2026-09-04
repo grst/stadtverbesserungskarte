@@ -10,8 +10,8 @@ import { Link } from 'react-router'
  * steht immer im Blickfeld.
  *
  * Enthalten ist nur, was hier hingehört: Impressum, Datenschutzerklärung und
- * der Urhebervermerk des Projekts. Die Karte trägt ihren
- * OpenStreetMap-Vermerk selbst (siehe `attributionOptions` in
+ * der Urhebervermerk des Projekts. Die Karte trägt den Vermerk ihrer
+ * Kachelquelle selbst (siehe `attributionOptions` in
  * src/map/mapController.ts), die Lizenzhinweise der verwendeten
  * Softwarepakete stehen im Impressum verlinkt.
  */

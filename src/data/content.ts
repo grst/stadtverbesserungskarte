@@ -2,7 +2,7 @@ import itemsJson from '../../data/items.json'
 import layersJson from '../../data/layers.json'
 import graphJson from '../../data/ortsteile-graph.json'
 import { itemImages } from './itemImages.generated'
-import type { Item, Layer, LayerId, OrtsteileGraph } from './types'
+import type { Item, Layer, LayerId, OrtsteileGraph, Safety } from './types'
 
 export const layers = layersJson.layers as Layer[]
 export const items = itemsJson as Item[]
@@ -14,6 +14,19 @@ export const graphNodeById = new Map(graph.nodes.map((node) => [node.id, node]))
 
 /** Alle bekannten Ebenen-IDs in der Reihenfolge aus data/layers.json. */
 export const allLayerIds: LayerId[] = layers.map((layer) => layer.id)
+
+/**
+ * Wie viele Verbindungen auf jede Bewertung fallen. Die Erklärkarte zur Karte
+ * nennt diese Zahlen – so ist die Verteilung sofort ablesbar, ohne die Linien
+ * zu zählen. Aus den Daten gerechnet, es gibt also nichts nachzupflegen.
+ */
+export const safetyCounts: Record<Safety, number> = graph.edges.reduce(
+  (counts, edge) => {
+    counts[edge.safety] += 1
+    return counts
+  },
+  { safe: 0, medium: 0, unsafe: 0, unknown: 0 } as Record<Safety, number>,
+)
 
 /**
  * Ein Eintrag ist sichtbar, sobald *mindestens eine* seiner Ebenen aktiv ist –

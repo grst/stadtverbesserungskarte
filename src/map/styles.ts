@@ -2,13 +2,19 @@ import { Circle, Fill, Icon, Stroke, Style, Text } from 'ol/style'
 import type { GraphNodeKind, Safety } from '../data/types'
 
 /**
- * Darstellung der Verbindungsbewertung. Die Bewertung wird doppelt kodiert –
- * über Farbe *und* Strichmuster –, damit sie nicht allein von Farbe abhängt
- * (WCAG 1.4.1 „Use of Color“). Die Legende zeigt beides.
+ * Darstellung der Verbindungsbewertung. Die Bewertung wird dreifach kodiert –
+ * über Farbe, Strichmuster *und* das Wort an der Linie –, damit sie nicht
+ * allein von Farbe abhängt (WCAG 1.4.1 „Use of Color“). Die Erklärkarte zur
+ * Karte zeigt alle drei.
  */
 export interface SafetyAppearance {
   label: string
-  description: string
+  /**
+   * Kurzform für die Beschriftung in der Karte. Sie steht direkt auf der Linie,
+   * damit man eine einzelne Verbindung lesen kann, ohne in die Erklärkarte zu
+   * schauen – deshalb muss sie in eine Linienlänge passen.
+   */
+  shortLabel: string
   /**
    * Beispiel dafür, was die Bewertung in der Sache heißt. Steht in der Legende
    * unter der Bewertung und soll die Einordnung einer Verbindung erleichtern.
@@ -24,14 +30,14 @@ export interface SafetyAppearance {
 export const SAFETY_APPEARANCE: Record<Safety, SafetyAppearance> = {
   safe: {
     label: 'Sicher',
-    description: 'durchgezogene Linie',
+    shortLabel: 'Sicher',
     example: 'durchgehender, separater Radweg',
     color: '#15803d',
     width: 6,
   },
   medium: {
     label: 'Mittel',
-    description: 'gestrichelte Linie',
+    shortLabel: 'Mittel',
     example: 'z. B. Nebenstraße',
     color: '#a1620a',
     lineDash: [16, 10],
@@ -39,7 +45,7 @@ export const SAFETY_APPEARANCE: Record<Safety, SafetyAppearance> = {
   },
   unsafe: {
     label: 'Unsicher',
-    description: 'gepunktete Linie',
+    shortLabel: 'Unsicher',
     example: 'z. B. Kreisstraße oder Verbindung mit Gefahrenstellen',
     color: '#b91c1c',
     lineDash: [4, 4],
@@ -47,7 +53,8 @@ export const SAFETY_APPEARANCE: Record<Safety, SafetyAppearance> = {
   },
   unknown: {
     label: 'Noch nicht bewertet',
-    description: 'dünne graue Linie',
+    // „Noch nicht bewertet“ wäre so breit, dass es von fast jeder Linie fiele.
+    shortLabel: 'Unbewertet',
     color: '#64748b',
     width: 3,
   },
@@ -65,20 +72,42 @@ const NODE_COLOR = '#0f172a'
 /** Straßenpunkte treten hinter die Orte zurück – sie sind selbst kein Ziel. */
 const JUNCTION_COLOR = '#64748b'
 
+/*
+ * Die drei Kanten-Stile sind zwischengespeichert – wie `pinIcon` und
+ * `clusterStyle` weiter unten und aus demselben Grund: OpenLayers ruft die
+ * Stilfunktion pro Feature und Frame auf. Der Graph liegt in drei Ebenen über
+ * derselben Quelle (Unterstrich, Linie, Beschriftung), macht bei 32
+ * Verbindungen also rund 96 Aufrufe je Bild. Ein `Style` je Bewertung darf
+ * dabei geteilt werden: OpenLayers liest die Stile nur, das Entzerren verändert
+ * sie nicht.
+ */
+const edgeCasingCache = new Map<Safety, Style>()
+
 /** Weißer Unterstrich, damit die Kanten auf jedem Kartenhintergrund lesbar bleiben. */
 export function edgeCasingStyle(safety: Safety): Style {
-  return new Style({
+  const cached = edgeCasingCache.get(safety)
+  if (cached) return cached
+
+  const style = new Style({
     stroke: new Stroke({
       color: 'rgba(255, 255, 255, 0.9)',
       width: SAFETY_APPEARANCE[safety].width + 5,
       lineCap: 'round',
     }),
   })
+  edgeCasingCache.set(safety, style)
+  return style
 }
 
+const edgeCache = new Map<string, Style>()
+
 export function edgeStyle(safety: Safety, highlighted: boolean): Style {
+  const key = `${safety}|${highlighted}`
+  const cached = edgeCache.get(key)
+  if (cached) return cached
+
   const appearance = SAFETY_APPEARANCE[safety]
-  return new Style({
+  const style = new Style({
     stroke: new Stroke({
       color: appearance.color,
       width: appearance.width + (highlighted ? 3 : 0),
@@ -86,6 +115,57 @@ export function edgeStyle(safety: Safety, highlighted: boolean): Style {
       lineCap: appearance.lineDash ? 'butt' : 'round',
     }),
   })
+  edgeCache.set(key, style)
+  return style
+}
+
+/**
+ * Ab dieser Zoomstufe steht die Bewertung an der Linie. Gleiche Schwelle wie
+ * die Ortsnamen in `graphNodeStyle`: darunter liegen die Ortsteile so dicht
+ * beieinander, dass Beschriftungen nur noch übereinander lägen.
+ */
+const EDGE_LABEL_MIN_ZOOM = 12
+
+const edgeLabelCache = new Map<Safety, Style>()
+
+/**
+ * Die Bewertung als Wort auf der Verbindung. Das ist der Kern der Lesbarkeit:
+ * für eine einzelne Linie braucht man die Erklärkarte damit gar nicht mehr,
+ * sie erklärt nur noch das Ganze. Der weiße Rand schneidet – wie bei
+ * Straßennamen in Kartenwerken – eine Lücke in die Linie und hält den Text auf
+ * jedem Kartenhintergrund lesbar.
+ *
+ * Gibt `undefined` zurück, solange die Karte zu weit herausgezoomt ist; dann
+ * zeichnet OpenLayers nur den Strich.
+ */
+export function edgeLabelStyle(safety: Safety, zoom: number): Style | undefined {
+  if (zoom < EDGE_LABEL_MIN_ZOOM) return undefined
+
+  const cached = edgeLabelCache.get(safety)
+  if (cached) return cached
+
+  const appearance = SAFETY_APPEARANCE[safety]
+  const style = new Style({
+    text: new Text({
+      text: appearance.shortLabel,
+      // Der Text folgt der Linie statt daneben zu stehen – so ist die Zuordnung
+      // eindeutig, auch wenn an einem Ort mehrere Verbindungen zusammenlaufen.
+      placement: 'line',
+      // Eine Stufe kleiner und leichter als die Ortsnamen (600 13px): der Ort
+      // ist das Ziel, die Bewertung die Eigenschaft des Wegs dorthin.
+      font: '600 12px system-ui, sans-serif',
+      fill: new Fill({ color: appearance.color }),
+      // Deckend weiß, nicht wie bei den Ortsnamen mit 0,95: „Mittel“ (#a1620a)
+      // erreicht auf reinem Weiß 4,92:1 und damit knapp die 4,5:1 aus
+      // WCAG 1.4.3 – ein durchscheinender Rand würde darunter rutschen.
+      stroke: new Stroke({ color: '#ffffff', width: 4 }),
+      // Standardwert, hier bewusst gesetzt: ist die Linie kürzer als das Wort,
+      // bleibt sie unbeschriftet, statt dass der Text über die Enden hinausläuft.
+      overflow: false,
+    }),
+  })
+  edgeLabelCache.set(safety, style)
+  return style
 }
 
 export function graphNodeStyle(name: string, zoom: number, kind: GraphNodeKind = 'place'): Style {

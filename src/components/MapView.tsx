@@ -10,6 +10,7 @@ import { SHEET_PEEK_PX } from '../layout'
 import { useAppState } from '../state/AppState'
 import { GraphLegend } from './GraphLegend'
 import { Icon } from './Icon'
+import { SafetySwatch } from './SafetySwatch'
 
 const RADVERKEHR_LAYER_ID = 'radverkehr'
 
@@ -175,17 +176,7 @@ export function MapView() {
               {edgeInfo.fromName} – {edgeInfo.toName}
             </p>
             <p className="map-popup-rating">
-              <span
-                className="legend-swatch"
-                style={
-                  {
-                    '--swatch-color': appearance.color,
-                    '--swatch-dash': appearance.lineDash ? `${appearance.lineDash[0]}px` : '999px',
-                    '--swatch-gap': appearance.lineDash ? `${appearance.lineDash[1]}px` : '0px',
-                  } as React.CSSProperties
-                }
-                aria-hidden="true"
-              />
+              <SafetySwatch safety={edgeInfo.edge.safety} />
               Radverbindung: {appearance.label}
             </p>
             {edgeInfo.edge.note && <p className="map-popup-note">{edgeInfo.edge.note}</p>}

@@ -113,6 +113,43 @@ a:hover {
   background: var(--surface-sunken);
 }
 
+/* ------------------------------------------------------ Hinweis „im Aufbau“ */
+.site-banner {
+  background: var(--notice);
+  border-bottom: 1px solid var(--notice-border);
+  color: var(--notice-strong);
+}
+
+.site-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0.25rem 0.75rem;
+}
+
+.site-banner-icon {
+  flex: 0 0 auto;
+}
+
+.site-banner-text {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.site-banner-close {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--notice-strong);
+}
+
+.site-banner-close:hover {
+  background: var(--surface);
+}
+
 /* --------------------------------------------------------------- Kopfleiste */
 .navbar {
   position: sticky;
@@ -389,24 +426,41 @@ a:hover {
   background-color: rgb(16 32 42 / 90%);
 }
 
-/* -------------------------------------------------------------- Graphlegende */
+/* -------------------------------------------------- Erklärkarte zum Graphen */
 .legend {
-  /* Schmale Viewports: oben rechts – unten links würde mit dem
-     OpenStreetMap-Urhebervermerk kollidieren. */
+  /* Oben rechts, und zwar auf jeder Bildschirmgröße. Die anderen Ecken sind
+     belegt: oben links die Zoomsteuerung, unten rechts der Urhebervermerk der
+     Karte, unten mittig das Explore-Panel. Oben rechts
+     ist außerdem die Ecke, in der der Blick nach dem Tippen auf den
+     Radverkehr-Chip ohnehin steht – die Karte lag früher unten links, in der am
+     wenigsten beachteten Ecke. Das Detailpanel überdeckt sie nicht: es ist ein
+     Flex-Geschwister und lässt die Karte schrumpfen. */
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
   z-index: 15;
-  max-width: min(300px, calc(100% - 1.5rem));
+  /* Etwas breiter als eine reine Farbtabelle – der Erklärsatz braucht Zeile.
+     Der Abzug hält links die Zoomsteuerung frei (0,75 rem Rand + 2,2 rem
+     Knöpfe); auf schmalen Geräten stieß der Kasten sonst daran. */
+  max-width: min(330px, calc(100% - 4.75rem));
+  /* Auf niedrigen Viewports darf der aufgeklappte Kasten die Karte nicht
+     auffressen; `contain` verhindert, dass sein Scrollen in die Karte
+     weiterläuft und dort zoomt. */
+  max-height: min(60%, 26rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background: rgb(255 255 255 / 94%);
+  /* Fast deckend: bei 94 % konnte axe den Textkontrast über der Karte nicht
+     mehr entscheiden und meldete „incomplete“. */
+  background: rgb(255 255 255 / 97%);
   box-shadow: var(--shadow-sm);
 }
 
 .legend-summary {
-  font-size: 0.82rem;
+  /* Keine Beschriftung mehr, sondern die Frage, die der Graph beantwortet. */
+  font-size: 0.9rem;
   font-weight: 700;
   line-height: 1.3;
   cursor: pointer;
@@ -414,6 +468,44 @@ a:hover {
 
 .legend[open] .legend-summary {
   margin-bottom: 0.45rem;
+}
+
+/* Eingeklappt – auf schmalen Viewports der Ausgangszustand – zeigt die
+   Titelzeile die Bewertungen als Kleinskala. So ist die Kodierung nie ganz
+   verschwunden, auch wenn niemand aufklappt. Aufgeklappt wäre sie eine
+   Dopplung der Liste darunter und verschwindet. */
+.legend-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.6rem;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.legend-scale-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Kürzer als in der Liste: hier steht der Strich neben einem einzelnen Wort,
+   nicht neben einem zweizeiligen Eintrag. */
+.legend-scale-item .legend-swatch {
+  width: 20px;
+}
+
+.legend[open] .legend-scale {
+  display: none;
+}
+
+.legend-intro {
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--text-muted);
 }
 
 .legend-list {
@@ -427,10 +519,14 @@ a:hover {
 }
 
 .legend-item {
-  display: flex;
-  /* Der Eintrag ist zwei Zeilen hoch (Bewertung + Beispiel); der Strich gehört
-     neben die erste. */
-  align-items: flex-start;
+  /* Strich | Bewertung samt Beispiel | Anzahl. Als Grid und nicht als Flexbox,
+     damit die Anzahl eine eigene Spalte hat und nicht mit dem zweizeiligen
+     Beispieltext um den Platz ringt. */
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  /* Der Eintrag ist zwei Zeilen hoch (Bewertung + Beispiel); Strich und Anzahl
+     gehören neben die erste. */
+  align-items: start;
   gap: 0.5rem;
   font-size: 0.8rem;
   line-height: 1.35;
@@ -453,10 +549,17 @@ a:hover {
   );
 }
 
-/* Nur die Bewertung selbst ist hervorgehoben; Strichmuster und Beispiel sind
-   Beiwerk und bleiben normal gesetzt. */
+/* Nur die Bewertung selbst ist hervorgehoben; Beispiel und Anzahl sind Beiwerk
+   und bleiben normal gesetzt. */
 .legend-label {
   font-weight: 600;
+}
+
+.legend-count {
+  /* Ziffern gleich breit, damit die Zahlen als Spalte untereinander stehen und
+     die Verteilung schon an ihrer Länge ablesbar ist. */
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
 }
 
 .legend-hint,
@@ -467,6 +570,12 @@ a:hover {
 
 .legend-example {
   display: block;
+}
+
+.legend-hint {
+  margin: 0.55rem 0 0;
+  font-size: 0.76rem;
+  line-height: 1.35;
 }
 
 /* ------------------------------------------------------------- Kanten-Popup */
@@ -734,7 +843,7 @@ a:hover {
   position: fixed;
   /* Unten bleibt die Fußzeile frei: „ständig verfügbar“ heißt auch, dass eine
      als Vollbild geöffnete Detailseite das Impressum nicht verdeckt. */
-  inset: var(--navbar-h) 0 var(--footer-h);
+  inset: calc(var(--banner-h) + var(--navbar-h)) 0 var(--footer-h);
   z-index: 45;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -1115,14 +1224,6 @@ a:hover {
   .footer-inner {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-  }
-
-  /* Ab hier ist unten links Platz, dort steht die Legende weniger im Weg. */
-  .legend {
-    top: auto;
-    right: auto;
-    bottom: calc(var(--sheet-peek) + 0.75rem);
-    left: 0.75rem;
   }
 
   .detail-scroll {

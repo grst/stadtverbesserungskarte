@@ -23,6 +23,7 @@
     "img-comparison-slider": "^8.0.7",
     "marked": "^18.0.11",
     "ol": "^10.10.0",
+    "ol-mapbox-style": "^13.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^8.3.0"

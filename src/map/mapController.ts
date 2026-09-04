@@ -4,16 +4,17 @@ import Overlay from 'ol/Overlay'
 import View from 'ol/View'
 import LineString from 'ol/geom/LineString'
 import Point from 'ol/geom/Point'
-import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
+import VectorTileLayer from 'ol/layer/VectorTile'
 import { fromLonLat } from 'ol/proj'
-import OSM from 'ol/source/OSM'
 import Cluster from 'ol/source/Cluster'
 import VectorSource from 'ol/source/Vector'
 import { boundingExtent, getHeight, getWidth } from 'ol/extent'
 import { defaults as defaultControls } from 'ol/control/defaults'
 import { defaults as defaultInteractions } from 'ol/interaction/defaults'
+import { applyBackground, applyStyle } from 'ol-mapbox-style'
 import type { FeatureLike } from 'ol/Feature'
+import type BaseLayer from 'ol/layer/Base'
 import type { Coordinate } from 'ol/coordinate'
 import { graph, graphNodeById, layerById } from '../data/content'
 import type { GraphEdge, GraphNodeKind, Item, LayerId } from '../data/types'
@@ -21,10 +22,28 @@ import {
   MIXED_CLUSTER_COLOR,
   clusterStyle,
   edgeCasingStyle,
+  edgeLabelStyle,
   edgeStyle,
   graphNodeStyle,
   itemStyle,
 } from './styles'
+
+/**
+ * Vektor-Basiskarte von OpenFreeMap (Stil „Bright“): OpenStreetMap-Daten, kein
+ * API-Schlüssel, keine Registrierung.
+ *
+ * Die Rasterkacheln von openstreetmap.org gibt es nur mit 256 px und ohne
+ * Hidpi-Variante (`@2x` beantwortet der Server mit 400). Auf Telefonen mit
+ * zwei- bis dreifacher Pixeldichte wurden sie entsprechend hochskaliert und
+ * sahen matschig aus. Vektorkacheln rendert OpenLayers dagegen in der
+ * Auflösung des Geräts.
+ */
+const BASEMAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/bright'
+
+/** Nur die Felder des MapLibre-Stils, die wir vor dem Anwenden anfassen. */
+interface GlStyle {
+  layers?: { layout?: { 'text-font'?: string[] } }[]
+}
 
 /** Startausschnitt: Immenstadt mit den nördlichen Ortsteilen. */
 const INITIAL_CENTER: [number, number] = [10.205, 47.578]
@@ -77,6 +96,56 @@ export interface MapController {
   onItemActivate: (itemId: string) => void
   onItemHover: (itemId: string | null) => void
   onEdgeActivate: (edge: EdgeGeometryEnds | null) => void
+}
+
+/**
+ * `ol-mapbox-style` kann die PBF-Glyphen eines MapLibre-Stils nicht verwenden
+ * und lädt Beschriftungsschriften stattdessen als Webfont nach – ungefragt
+ * von cdn.jsdelivr.net. Das wäre ein weiterer Drittanbieter und eine
+ * externe Schriftart, die die Datenschutzerklärung ausdrücklich ausschließt.
+ *
+ * Deshalb tauschen wir die Familie gegen das generische `sans-serif`; die
+ * Bibliothek überspringt generische Familien beim Nachladen. Schnitt und
+ * Stärke stehen im Namen und bleiben dabei erhalten („Noto Sans Bold“ wird zu
+ * „sans-serif Bold“ und damit weiterhin fett gesetzt).
+ */
+function useSystemFonts(style: GlStyle): void {
+  for (const layer of style.layers ?? []) {
+    const layout = layer.layout
+    const fonts = layout?.['text-font']
+    if (!layout || !fonts) continue
+    layout['text-font'] = fonts.map(systemFontStack)
+  }
+}
+
+/** Schnitt- und Stärkeangaben, die am Ende eines Schriftnamens stehen können. */
+const FONT_MODIFIERS = new Set([
+  'thin', 'extralight', 'ultralight', 'light', 'book', 'regular', 'normal',
+  'medium', 'semibold', 'demibold', 'bold', 'extrabold', 'black', 'heavy',
+  'italic', 'oblique',
+])
+
+/** „Noto Sans Bold Italic“ → „sans-serif Bold Italic“. */
+function systemFontStack(font: string): string {
+  const words = font.split(' ')
+  const modifiers: string[] = []
+  while (words.length > 1 && FONT_MODIFIERS.has(words[words.length - 1].toLowerCase())) {
+    modifiers.unshift(words.pop() as string)
+  }
+  return ['sans-serif', ...modifiers].join(' ')
+}
+
+async function applyBasemapStyle(layer: VectorTileLayer): Promise<void> {
+  const response = await fetch(BASEMAP_STYLE_URL)
+  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`)
+  const style = (await response.json()) as GlStyle
+  useSystemFonts(style)
+  // `styleUrl` löst relative Angaben im Stil auf (Sprites, Quellen).
+  await applyStyle(layer, style, { styleUrl: BASEMAP_STYLE_URL })
+  // Die Hintergrundfarbe des Stils steckt in einer eigenen `background`-Ebene,
+  // die `applyStyle` nicht kennt – ohne sie blitzt beim Nachladen der Kacheln
+  // die weiße Seite durch.
+  await applyBackground(layer, style)
 }
 
 export function createMapController(
@@ -152,6 +221,22 @@ export function createMapController(
     zIndex: 11,
   })
 
+  // Die Beschriftung der Kanten liegt in einer eigenen Ebene über derselben
+  // Quelle – wie schon Strich und Unterstrich. `declutter` wirkt auf Bilder und
+  // Text; Strich und Text in einer Ebene zu mischen würde die Striche mit durch
+  // den Declutter-Baum ziehen.
+  const edgeLabelLayer = new VectorLayer({
+    source: edgeSource,
+    style: (feature, resolution) =>
+      edgeLabelStyle(edgeOf(feature).safety, view.getZoomForResolution(resolution) ?? 0),
+    zIndex: 12,
+    // Derselbe Declutter-Wert wie bei den Ortsnamen: beide werden gemeinsam
+    // entzerrt, sonst läge die Bewertung über einem Ortsnamen. Die Ortsnamen
+    // liegen höher im Ebenenstapel und haben damit Vorrang – OpenLayers vergibt
+    // die Declutter-Priorität nach Stapelreihenfolge.
+    declutter: 'graph',
+  })
+
   const nodeLayer = new VectorLayer({
     source: nodeSource,
     style: (feature, resolution) =>
@@ -160,12 +245,27 @@ export function createMapController(
         view.getZoomForResolution(resolution) ?? 0,
         feature.get('nodeKind') as GraphNodeKind,
       ),
-    zIndex: 12,
-    declutter: true,
+    zIndex: 13,
+    declutter: 'graph',
   })
 
-  const graphLayers = [edgeCasingLayer, edgeLayer, nodeLayer]
+  const graphLayers = [edgeCasingLayer, edgeLayer, edgeLabelLayer, nodeLayer]
   for (const layer of graphLayers) layer.setVisible(false)
+
+  const basemapLayer = new VectorTileLayer({
+    // Der Basemap-Kontrast wird leicht gedämpft, damit Pins und Kanten
+    // darüber gut lesbar bleiben.
+    className: 'ol-layer basemap',
+    // Eigener Entzerrungsraum: Die Beschriftungen der Basiskarte sollen mit den
+    // Ortsnamen des Graphen nicht um dieselben Plätze streiten, sie liegen
+    // ohnehin darunter.
+    declutter: 'basemap',
+  })
+  // Der Stil kommt aus dem Netz; scheitert das, bleibt die Karte ohne
+  // Hintergrund bedienbar – Pins, Graph und Explore-Panel hängen nicht daran.
+  void applyBasemapStyle(basemapLayer).catch((error: unknown) => {
+    console.warn('Basiskarte konnte nicht geladen werden.', error)
+  })
 
   const popup = new Overlay({
     element: popupElement,
@@ -212,12 +312,7 @@ export function createMapController(
     target,
     view,
     layers: [
-      new TileLayer({
-        source: new OSM(),
-        // Der Basemap-Kontrast wird leicht gedämpft, damit Pins und Kanten
-        // darüber gut lesbar bleiben.
-        className: 'ol-layer basemap',
-      }),
+      basemapLayer,
       ...graphLayers,
       itemLayer,
     ],
@@ -277,6 +372,17 @@ export function createMapController(
 
   function edgeOf(feature: FeatureLike): GraphEdge {
     return feature.get('edge') as GraphEdge
+  }
+
+  /**
+   * Ebenen, in denen die Treffersuche überhaupt sucht – ausdrücklich als
+   * Positivliste. Der weiße Unterstrich und die Beschriftung zeigen dieselben
+   * Kanten wie `edgeLayer`; würden sie mitgesucht, hinge es an der Trefferfolge
+   * von OpenLayers, welche Ebene antwortet, und der Vorrang der Pins vor den
+   * Verbindungen wäre nicht mehr eindeutig.
+   */
+  function hitLayer(layer: BaseLayer): boolean {
+    return layer === itemLayer || layer === edgeLayer
   }
 
   /**
@@ -410,7 +516,7 @@ export function createMapController(
         }
         return false
       },
-      { hitTolerance: 8, layerFilter: (layer) => layer !== edgeCasingLayer },
+      { hitTolerance: 8, layerFilter: hitLayer },
     )
 
     if (pinMembers) {
@@ -460,7 +566,7 @@ export function createMapController(
         if (feature.get('kind') === 'edge' && !edgeKey) edgeKey = feature.get('key') as string
         return false
       },
-      { hitTolerance: 8, layerFilter: (layer) => layer !== edgeCasingLayer },
+      { hitTolerance: 8, layerFilter: hitLayer },
     )
 
     const targetElement = map.getTargetElement()

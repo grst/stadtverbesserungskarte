@@ -18,7 +18,7 @@
     { "id": "braeunlings", "name": "Bräunlings", "lat": 47.5872, "lon": 10.23792 },
 
     { "id": "niedersonthofen", "name": "Niedersonthofen", "lat": 47.63069, "lon": 10.23562 },
-    { "id": "oberdorf", "name": "Oberdorf b. Immenstadt", "lat": 47.6283, "lon": 10.27234 },
+    { "id": "oberdorf", "name": "Oberdorf", "lat": 47.6283, "lon": 10.27234 },
     { "id": "untermaiselstein", "name": "Untermaiselstein", "lat": 47.57933, "lon": 10.26049 },
     { "id": "blaichach", "name": "Blaichach", "lat": 47.54386, "lon": 10.25733 },
     { "id": "thalkirchdorf", "name": "Thalkirchdorf", "lat": 47.55353, "lon": 10.08848 },

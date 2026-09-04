@@ -7,6 +7,7 @@ import { Footer } from './components/Footer'
 import { ItemDetail } from './components/ItemDetail'
 import { MarkdownPage } from './components/MarkdownPage'
 import { NavBar } from './components/NavBar'
+import { SiteBanner } from './components/SiteBanner'
 import { MapPage } from './pages/MapPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
@@ -16,6 +17,7 @@ function Shell() {
       <a className="skip-link" href="#main">
         Zum Inhalt springen
       </a>
+      <SiteBanner />
       <NavBar />
       <Outlet />
       <Footer />

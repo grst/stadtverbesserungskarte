@@ -20,7 +20,9 @@ Alte Dorfstr. 9\
 
 Die Karte nutzt Kartendaten von OpenStreetMap, veröffentlicht unter der [Open
 Database License](https://opendatacommons.org/licenses/odbl/) durch die
-[OpenStreetMap-Mitwirkenden](https://www.openstreetmap.org/copyright).
+[OpenStreetMap-Mitwirkenden](https://www.openstreetmap.org/copyright). Die
+Vektorkacheln liefert [OpenFreeMap](https://openfreemap.org) nach dem Schema von
+[OpenMapTiles](https://openmaptiles.org) aus.
 
 ## Verwendete Software
 

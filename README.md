@@ -108,18 +108,31 @@ Blaichach, Thalkirchdorf, Missen), damit auch die Verbindungen aus dem
 Stadtgebiet heraus bewertet werden können. Kanten sind die Verbindungen zwischen
 benachbarten Orten. Für jede Kante das Feld `safety` setzen:
 
-  | Wert        | Darstellung in der Karte                         |
-  | ----------- | ------------------------------------------------ |
-  | `"safe"`    | grün, durchgezogen                               |
-  | `"medium"`  | orange, gestrichelt                              |
-  | `"unsafe"`  | rot, gepunktet                                   |
-  | `"unknown"` | grau, dünn – Ausgangswert, „noch nicht bewertet“ |
+  | Wert        | Darstellung in der Karte                         | Wort an der Linie |
+  | ----------- | ------------------------------------------------ | ----------------- |
+  | `"safe"`    | grün, durchgezogen                               | „Sicher“          |
+  | `"medium"`  | orange, gestrichelt                              | „Mittel“          |
+  | `"unsafe"`  | rot, gepunktet                                   | „Unsicher“        |
+  | `"unknown"` | grau, dünn – Ausgangswert, „noch nicht bewertet“ | „Unbewertet“      |
 
 Optional lässt sich pro Kante eine kurze Begründung in `note` hinterlegen; sie
 erscheint, wenn man in der Karte auf die Verbindung klickt.
 
-Alle Kanten starten als `"unknown"`. Die Bewertung wird doppelt kodiert -- über
-Farbe *und* Strichmuster --, damit sie nicht allein von der Farbe abhängt.
+Alle Kanten starten als `"unknown"`. Die Bewertung wird dreifach kodiert -- über
+Farbe, Strichmuster *und* das Wort an der Linie --, damit sie nicht allein von
+der Farbe abhängt.
+
+Das Wort steht ab Zoomstufe 12 direkt auf der Verbindung, und zwar nur dort, wo
+es hineinpasst: ist die Linie kürzer als der Text, bleibt sie unbeschriftet
+(`overflow: false` in `edgeLabelStyle`, `src/map/styles.ts`). Ortsnamen haben
+Vorrang -- Beschriftungen und Ortsnamen werden in derselben Declutter-Gruppe
+`'graph'` entzerrt, und die Ortsnamen liegen höher im Ebenenstapel. Weil damit
+nie *alle* Verbindungen beschriftet sind und weit herausgezoomt gar keine, bleibt
+die Erklärkarte oben rechts in der Karte (`src/components/GraphLegend.tsx`) die
+tragende Erklärung: sie sagt, was Punkte und Linien bedeuten, und nennt die
+Anzahl der Verbindungen je Bewertung. Die Zahlen kommen aus `safetyCounts`
+(`src/data/content.ts`) und werden aus den Daten gerechnet -- beim Bewerten ist
+dort nichts nachzupflegen.
 
 Neue Ortsteile oder Verbindungen einfach ergänzen; `npm run validate` meldet
 Kanten mit unbekannten Knoten, Dubletten (auch in umgekehrter Richtung) und
@@ -169,7 +182,8 @@ src/
 scripts/    Kompilierung, Validierung, Build-Nacharbeiten, Prüfwerkzeuge
 ```
 
-Technik: Vite, React, TypeScript, OpenLayers (Karte, OpenStreetMap-Kacheln),
+Technik: Vite, React, TypeScript, OpenLayers mit `ol-mapbox-style` (Karte,
+Vektorkacheln von OpenFreeMap),
 `img-comparison-slider` (Vorher/Nachher), `@radix-ui/react-dialog` (Menü auf
 schmalen Viewports), `marked` + `DOMPurify` (Markdown), `yaml` (Frontmatter),
 `ajv` (Validierung). Die Karte wird in `src/map/mapController.ts` außerhalb von
@@ -180,6 +194,19 @@ ruft dasselbe Skript beim Start und bei jeder Änderung unter `data/items/` auf.
 Bilder werden nicht kopiert: sie bleiben in ihrem Ordner und kommen über die
 Importe in `src/data/itemImages.generated.ts` mit Hash im Dateinamen in den
 Build.
+
+Die Basiskarte sind Vektorkacheln von [OpenFreeMap](https://openfreemap.org)
+(Stil „Bright"), angewendet über `ol-mapbox-style`. Vorher lagen dort die
+Rasterkacheln von openstreetmap.org; die gibt es nur mit 256 px und ohne
+Hidpi-Variante (`@2x` beantwortet der Server mit 400), auf Telefonen wurden sie
+also zwei- bis dreifach hochskaliert und sahen matschig aus. OpenFreeMap
+braucht wie openstreetmap.org keinen API-Schlüssel. Eine Eigenheit von
+`ol-mapbox-style`: Es kann die Glyphen des Kartenstils nicht verwenden und lädt
+Beschriftungsschriften stattdessen ungefragt als Webfont von cdn.jsdelivr.net
+nach. `useSystemFonts()` in `src/map/mapController.ts` ersetzt die
+Schriftfamilie deshalb vor dem Anwenden durch das generische `sans-serif` --
+generische Familien lädt die Bibliothek nicht nach, und die Seite bleibt ohne
+externe Schriftarten (so steht es auch in der Datenschutzerklärung).
 
 Liegen Pins zu dicht beieinander, fasst `ol/source/Cluster` sie zu einer Blase
 mit der Anzahl zusammen; ein Klick darauf zoomt auf die enthaltenen Vorschläge,
@@ -229,12 +256,14 @@ Screenreader unsichtbar macht. Die Begründung steht als Kommentar in der Datei.
 
 Wer wo genannt werden muss -- und warum das nicht alles in die Fußzeile gehört:
 
-- **OpenStreetMap** (Kartendaten, ODbL) verlangt einen sichtbaren Vermerk. Den
-  setzt OpenLayers selbst in die Kartenecke: `attributionOptions` in
-  `src/map/mapController.ts` steht auf `collapsible: false`, damit „©
-  OpenStreetMap contributors" dauerhaft und nicht eingeklappt zu sehen ist,
-  verlinkt auf `openstreetmap.org/copyright`. In der Fußzeile stand derselbe
-  Vermerk doppelt; er ist dort entfernt.
+- **OpenStreetMap** (Kartendaten, ODbL) verlangt einen sichtbaren Vermerk,
+  **OpenFreeMap** und **OpenMapTiles** (Kachelauslieferung und Kachelschema)
+  ebenfalls. Alle drei stehen im Vermerk, den die Kachelquelle selbst mitliefert
+  und den OpenLayers in die Kartenecke setzt: `attributionOptions` in
+  `src/map/mapController.ts` steht auf `collapsible: false`, damit
+  „OpenFreeMap © OpenMapTiles Data from OpenStreetMap" dauerhaft und nicht
+  eingeklappt zu sehen ist, verlinkt auf `openstreetmap.org/copyright`. In der
+  Fußzeile stand derselbe Vermerk doppelt; er ist dort entfernt.
 - **OpenLayers** steht unter BSD-2-Clause. Die Lizenz fordert *keinen*
   sichtbaren Hinweis in der Oberfläche, wohl aber, dass Copyright-Vermerk und
   Lizenztext mit der Weitergabe mitgeliefert werden. Vite minifiziert die
