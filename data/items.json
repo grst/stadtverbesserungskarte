@@ -16,7 +16,7 @@
       "afterAlt": "Derselbe Platz mit mehreren großen Bäumen in runden Cortenstahl-Kübeln, Sitzbänken in ihrem Schatten und einer mit Wein überwachsenen Pergola.",
       "copyright": "Gregor Sturm"
     },
-    "description": "Der Fidel-Schlund-Platz",
+    "description": "Der Fidel-Schlund-Platz ist vollständig gepflastert. Außer dem kleinen Baum in\nder Platzmitte wirft hier nichts Schatten; die wenigen Sitzgelegenheiten am Rand\nliegen den ganzen Tag in der Sonne.\n\nAn heißen Sommertagen heizt sich das Pflaster auf und gibt die Wärme bis in die\nNacht wieder ab. Der Platz ist dann genau in den Stunden nicht nutzbar, in denen\nein schattiger Aufenthaltsort ohne Konsumzwang am meisten gebraucht würde.\n\nDer Vorschlag: mehrere große Bäume in mobilen Kübeln auf der freien Fläche im\nvorderen Platzteil, Bänke in ihrem Schatten, dazu eine berankte Pergola. Die\nKübel kommen ohne Eingriff in den Untergrund aus, lassen sich bei Bedarf zur\nSeite rücken, und eine Aufstellung, die sich nicht bewährt, ist schnell\nkorrigiert. Der Platz bleibt also Platz -- gewinnt aber Schatten, Kühlung und\neinen Grund, sich hinzusetzen.",
     "author": "Gregor Sturm"
   },
   {
@@ -36,7 +36,7 @@
       "afterAlt": "Derselbe Hang mit einem asphaltierten, mit Fahrradpiktogramm markierten Radweg, der in flacheren Kurven zur Kirche führt; daneben stehen neu gepflanzte Apfelbäume.",
       "copyright": "Gregor Sturm"
     },
-    "description": "Lorem ipsum",
+    "description": "Zwischen Werdenstein und Eckarts gibt es heute zwei Möglichkeiten: die viel und\nschnell befahrene Kreisstraße oder den schmalen \"Kirchenweg\" über die Wiese. Der\nPfad ist geschottert, ausgewaschen und steil; mit Rad, Kinderwagen oder Rollator\nist er nicht zu gebrauchen, bei Nässe schon gar nicht.\n\nFür Radfahrer bleibt für den Weg zur Schule, zum Einkaufen oder in die Stadt\npraktisch nur die Kreisstraße. Kinder fahren dort nicht allein. Für Menschen,\ndie schlecht zu Fuß sind bleibt quasi nur das Auto um die kurze Strecke von\nWerdenstein nach Eckarts zu kommen.\n\nDer Vorschlag: den Pfad zu einem asphaltierten Rad- und Fußweg ausbauen, der in\nflacheren Kurven am Hang entlangführt und dadurch deutlich weniger Steigung hat.\nWo dafür einzelne Bäume weichen müssen, werden entlang des Weges neue Obstbäume\ngepflanzt. Das Ergebnis ist eine kurze, autofreie und weitgehend barrierefreie\nVerbindung, die ganzjährig befahrbar ist -- und die Kreisstraße als einzige\nOption ablöst.",
     "author": "Gregor Sturm"
   },
   {
@@ -56,12 +56,12 @@
       "afterAlt": "Dieselbe Querung mit durchgehend rot asphaltiertem Radweg, weißen Randlinien, Fahrradpiktogrammen und weißen Dreiecken auf den angerampten Fahrbahnrändern.",
       "copyright": "Gregor Sturm"
     },
-    "description": "Lorem ipsum",
+    "description": "Der Zweirichtungsradweg quert hier eine einmündende Nebenstraße auf demselben\ngrauen Asphalt wie die Fahrbahn. Zwischen Bordsteinen und Verkehrsinseln weist\nnichts darauf hin, dass hier ein Radweg gekreuzt wird -- und wer mit dem Rad\nankommt, kann sich nicht darauf verlassen, gesehen zu werden. Zudem wird man mit\ndem Rad durch die Bordsteine ordentlich durchgeschüttelt, während die Autofahrer\neine ebene Strecke nutzen dürfen.\n\nEinmündungen sind an Radwegen die typische Gefahrenstelle. Wir finden außerdem,\nder Radferkehr sollte nicht durch Hindernisse wie Bordsteinkanten ausgebremst\nwerden.\n\nDer Vorschlag folgt dem niederländischen Standard: Der Radweg läuft in\ndurchgehend rotem Asphalt mit weißen Randlinien über die Einmündung hinweg, die\nFahrbahn wird beidseitig auf sein Niveau angerampt, weiße Dreiecke auf der Rampe\nzeigen die Wartepflicht an. Die Querung erklärt sich damit ohne Schild von\nselbst, die Rampe bremst den Kfz-Verkehr baulich statt nur per Vorschrift, und\ndie durchgehende Fläche macht das Queren mit dem Rad bequem.",
     "author": "Gregor Sturm"
   },
   {
     "id": "radweg_seifen",
-    "title": "Durchgehender Radweg statt „Radfahrer absteigen“ in Seifen",
+    "title": "Radwegquerung mit rotem Belag und Anrampung für den Kfz-Verkehr",
     "location": {
       "lat": 47.59503973588101,
       "lon": 10.250998038293215
@@ -76,7 +76,7 @@
       "afterAlt": "Derselbe Abschnitt mit durchgehendem, rot asphaltiertem Radweg, weißen Randlinien und weißen Dreiecken an den Zufahrten; das Schild „Radfahrer absteigen“ ist entfallen.",
       "copyright": "Gregor Sturm"
     },
-    "description": "Lorem ipsum",
+    "description": "Der Zweirichtungsradweg quert hier eine einmündende Nebenstraße zum\nIndustriegebiet. Von der Einfahrt kommend ist die Stelle unübersichtlich. Das\ngelbe Nebengebäude versperrt die Sicht auf den Radweg. Zwischen Bordsteinen und\nVerkehrsinseln weist außerdem nichts darauf hin, dass hier ein Radweg gekreuzt\nwird. Wer mit dem Rad ankommt, kann sich nicht darauf verlassen, gesehen zu\nwerden.\n\nEinmündungen sind an Radwegen die typische Gefahrenstelle. Wir finden außerdem,\nder Radferkehr sollte nicht durch Hindernisse wie Bordsteinkanten ausgebremst\nwerden.\n\nDer Vorschlag folgt dem niederländischen Standard: Der Radweg läuft in\ndurchgehend rotem Asphalt mit weißen Randlinien über die Einmündung hinweg, die\nFahrbahn wird beidseitig auf sein Niveau angerampt, weiße Dreiecke auf der Rampe\nzeigen die Wartepflicht an. Die Querung erklärt sich damit ohne Schild von\nselbst, die Rampe bremst den Kfz-Verkehr baulich statt nur per Vorschrift, und\ndie durchgehende Fläche macht das Queren mit dem Rad bequem.",
     "author": "Gregor Sturm"
   },
   {
@@ -96,7 +96,7 @@
       "afterAlt": "Derselbe Sandkasten vollständig im Schatten eines beigen Sonnensegels, das an vier schlanken Edelstahlpfosten über die Fläche gespannt ist.",
       "copyright": "Gregor Sturm"
     },
-    "description": "Lorem ipsum",
+    "description": "Obwohl der Spielplatz in Eckarts von großen Bäumen umgeben ist, liegen die\nSpielgeräte frei auf der Wiese und damit an einem Sommertag vollständig in der\nSonne.\n\nIm Sandkasten spielen die Kleinsten: die, die am wenigsten Sonne vertragen und\nam längsten an derselben Stelle sitzen. Der Sand heizt sich auf, Familien\nweichen aus, und der Spielplatz fällt ausgerechnet in den heißen Stunden der\nSommerferien aus. Ein neu gepflanzter Baum würde das lösen -- in fünfzehn bis\nzwanzig Jahren.\n\nDer Vorschlag: ein Sonnensegel an einer robusten Konsruktion, das den gesamten\nSandkasten überspannt. Es wirkt ab dem ersten Sommer, kostet keine Spielfläche\nund lässt sich im Winter abnehmen, während die Pfosten stehen bleiben. Der\nSandkasten bleibt damit auch mittags nutzbar. Ein zusätzlich gepflanzter Baum\nkann in Ruhe nachwachsen.",
     "author": "Gregor Sturm"
   }
 ]

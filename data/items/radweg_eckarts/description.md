@@ -18,4 +18,20 @@ images:
     gepflanzte Apfelbäume.
   copyright: Gregor Sturm
 ---
-Lorem ipsum
+
+Zwischen Werdenstein und Eckarts gibt es heute zwei Möglichkeiten: die viel und
+schnell befahrene Kreisstraße oder den schmalen "Kirchenweg" über die Wiese. Der
+Pfad ist geschottert, ausgewaschen und steil; mit Rad, Kinderwagen oder Rollator
+ist er nicht zu gebrauchen, bei Nässe schon gar nicht.
+
+Für Radfahrer bleibt für den Weg zur Schule, zum Einkaufen oder in die Stadt
+praktisch nur die Kreisstraße. Kinder fahren dort nicht allein. Für Menschen,
+die schlecht zu Fuß sind bleibt quasi nur das Auto um die kurze Strecke von
+Werdenstein nach Eckarts zu kommen.
+
+Der Vorschlag: den Pfad zu einem asphaltierten Rad- und Fußweg ausbauen, der in
+flacheren Kurven am Hang entlangführt und dadurch deutlich weniger Steigung hat.
+Wo dafür einzelne Bäume weichen müssen, werden entlang des Weges neue Obstbäume
+gepflanzt. Das Ergebnis ist eine kurze, autofreie und weitgehend barrierefreie
+Verbindung, die ganzjährig befahrbar ist -- und die Kreisstraße als einzige
+Option ablöst.

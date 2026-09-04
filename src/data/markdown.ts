@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify'
-import { Marked, type RendererObject } from 'marked'
+import { Marked, type RendererObject, type TokenizerAndRendererExtension } from 'marked'
 
 /**
  * Markdown → bereinigtes HTML. Genutzt für die Textseiten aus content/ und für
@@ -23,6 +23,26 @@ export interface MarkdownOptions {
    * Markdown würde also ins Leere führen.
    */
   resolveLink?: (href: string) => string
+}
+
+/**
+ * Gedankenstriche: `--` im Text wird zum Halbgeviertstrich (–), `---` zum
+ * Geviertstrich (—). Als Inline-Erweiterung statt als Textersetzung, damit
+ * Bindestriche in Code, Links und HTML unangetastet bleiben. Vier oder mehr
+ * Striche bleiben ebenfalls stehen – dort ist keine Absicht erkennbar.
+ */
+const dash: TokenizerAndRendererExtension = {
+  name: 'dash',
+  level: 'inline',
+  start: (src) => src.indexOf('--'),
+  tokenizer(src) {
+    const match = /^-{2,}/.exec(src)
+    if (!match) return undefined
+    // Der ganze Strich-Lauf wird verbraucht, damit aus `----` nicht `-—` wird.
+    const run = match[0]
+    return { type: 'dash', raw: run, text: run === '--' ? '–' : run === '---' ? '—' : run }
+  },
+  renderer: (token) => token.text,
 }
 
 const escapeHtml = (value: string) =>
@@ -58,6 +78,6 @@ export function renderMarkdown(markdown: string, options: MarkdownOptions = {}):
   }
 
   const marked = new Marked({ gfm: true, breaks: false })
-  marked.use({ renderer })
+  marked.use({ renderer, extensions: [dash] })
   return DOMPurify.sanitize(marked.parse(markdown, { async: false }))
 }
